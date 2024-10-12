@@ -47,7 +47,7 @@ jobs:
         touch data/database.sqlite
       
     - name: Run PHP CS Fixer
-      run: composer exec php-cs-fixer fix --dry-run --diff
+      run: composer exec php-cs-fixer check
 
     - name: Run PHPStan
       run: vendor/bin/phpstan analyse src --level=max
