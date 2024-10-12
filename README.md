@@ -3,6 +3,62 @@
 
 Secret for now.
 
+## Tech Highlights
+
+- GitHub CI/CD
+- Doctrine Discriminator
+
+## Roadmap
+
+<details>
+<summary>Création du projet</summary>
+
+- [ ] Création du projet Symfony 7.1
+- [ ] Déploiement sur GitHub
+- [ ] Intégrer PHPUnit
+- [ ] Intégrer PHPStan
+- [ ] Intégrer PHP CS Fixer
+
+</details>
+
+<details>
+<summary>Création du repository GitHub</summary>
+
+- [ ] Premier commit du projet
+- [ ] Rédaction d’une première doc
+- [ ] Rédaction de la roadmap
+- [ ] Création d’une CI/CD GitHub
+
+</details>
+
+<details>
+<summary>Création du modèle User</summary>
+
+- [ ] Implémentation de l’authentification
+
+</details>
+
+<details>
+<summary>Création du modèle Product</summary>
+
+- [ ] Création du modèle Product parent
+- [ ] Création des modèles enfant
+- [ ] Get endpoint
+- [ ] Post endpoint
+- [ ] Patch endpoint
+- [ ] Delete endpoint
+
+</details>
+
+<details>
+<summary>Création du modèle Product</summary>
+
+- [ ] Création du modèle ExpirationDate
+- [ ] Post endpoint
+- [ ] Patch endpoint
+- [ ] Delete endpoint
+
+</details>
 
 ## API Reference
 
