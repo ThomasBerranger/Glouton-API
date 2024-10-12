@@ -19,7 +19,11 @@ security:
             provider: app_user_provider
 
             json_login:
-                check_path: api_login
+                check_path: login
+
+            stateless: true
+            access_token:
+                token_handler: App\Security\AccessTokenHandler
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
@@ -29,6 +33,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH ]
 
 when@test:
     security:
