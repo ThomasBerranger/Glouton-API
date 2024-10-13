@@ -34,8 +34,8 @@ Secret for now.
 <details>
 <summary>Création du modèle User</summary>
 
-- [ ] Création du modèle User
-- [ ] Implémentation de l’authentification
+- [x] Création du modèle User
+- [x] Implémentation de l’authentification
 
 </details>
 
@@ -63,17 +63,52 @@ Secret for now.
 
 ## API Reference
 
-#### Get all items
+#### Register
 
 ```
-  GET /api/items
+  POST /login
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+| Parameter  | Type     | Required | Description   |
+|:-----------| :------- |----------|:--------------|
+| `email`    | `string` | true     | Your email    |
+| `password` | `string` | true     | Your password |
 
-#### Get item
+```json
+{
+  "email": "user@gmail.com",
+  "password": "your_password"
+}
+```
+
+#### Login
+
+```
+  POST /login
+```
+
+| Parameter  | Type     | Required | Description   |
+|:-----------| :------- |----------|:--------------|
+| `username` | `string` | true     | Your email    |
+| `password` | `string` | true     | Your password |
+
+```json
+{
+  "username": "user@gmail.com",
+  "password": "your_password"
+}
+```
+
+#### Logout
+
+```
+  POST /logout
+```
+
+
+---
+
+#### Get Product
 
 ```
   GET /api/items/${id}
@@ -87,6 +122,7 @@ Secret for now.
 
 Takes two numbers and returns the sum.
 
+---
 
 ## Tech Stack
 
