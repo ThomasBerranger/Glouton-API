@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SecurityController extends AbstractController
 {
@@ -31,6 +32,10 @@ class SecurityController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
+        $user->removeToken()->createToken();
+
+        $this->entityManager->flush();
+
         return $this->json(['token' => (string) $user->getToken()]);
     }
 
@@ -39,17 +44,28 @@ class SecurityController extends AbstractController
     {
         $user = new User();
 
-        $user->setEmail($registrationDTO->getEmail());
-        $user->setPassword($this->passwordHasher->hashPassword(
-            $user,
-            $registrationDTO->getPassword()
-        ));
-
-        $user->setToken(new Token());
+        $user
+            ->setEmail($registrationDTO->getEmail())
+            ->setPassword($this->passwordHasher->hashPassword(
+                $user,
+                $registrationDTO->getPassword()
+            ))
+            ->createToken();
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         return $this->json(['token' => (string) $user->getToken()], Response::HTTP_CREATED);
+    }
+
+    #[Route('/logout', name: 'logout', methods: ['post'])]
+    #[IsGranted('ROLE_USER')]
+    public function logout(): JsonResponse
+    {
+        $this->getUser()->removeToken();
+
+        $this->entityManager->flush();
+
+        return $this->json([], Response::HTTP_NO_CONTENT);
     }
 }

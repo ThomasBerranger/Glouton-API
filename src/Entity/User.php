@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string|null The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
@@ -124,5 +124,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->token = $token;
 
         return $this;
+    }
+
+    public function createToken(): static
+    {
+        return $this->setToken(new Token());
+    }
+
+    public function removeToken(): static
+    {
+        return $this->setToken(null);
     }
 }
