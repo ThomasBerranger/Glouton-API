@@ -6,7 +6,16 @@ Secret for now.
 ## Tech Highlights
 
 - GitHub CI/CD
+
+Mise en place d'une intégration et d'un déploiement continue via les actions GitHub. 
+
+- Authentification via Token
+
+Intégration d'un système d'authentification via le AccessTokenHandler de Symfony et une gestion des Tokens.
+
 - Doctrine Discriminator
+
+Todo
 
 ## Roadmap
 
