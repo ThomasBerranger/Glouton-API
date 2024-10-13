@@ -26,7 +26,7 @@ class Product
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['products.show'])]
+    #[Groups(['products.show', 'products.edit'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
