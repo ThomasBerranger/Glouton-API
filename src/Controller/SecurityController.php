@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\DTO\RegistrationDTO;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -14,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class SecurityController extends AbstractController
+final class SecurityController extends BaseController
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
@@ -61,7 +60,7 @@ class SecurityController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function logout(): JsonResponse
     {
-        $this->getUser()->removeToken();
+        $this->getCurrentUser()->removeToken();
 
         $this->entityManager->flush();
 

@@ -21,19 +21,19 @@ class Token
     private ?\DateTimeInterface $expiry_date = null;
 
     #[ORM\OneToOne(mappedBy: 'token')]
-    private ?User $owner = null;
+    private User $owner;
 
     public function __construct()
     {
-        $this->expiry_date = new \DateTime('now + 1 month');
+        $this->expiry_date = new \DateTime('now + 1 month + 2 hours');
     }
 
     public function __toString(): string
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -55,23 +55,13 @@ class Token
         return new \DateTime() <= $this->expiry_date;
     }
 
-    public function getOwner(): ?User
+    public function getOwner(): User
     {
         return $this->owner;
     }
 
-    public function setOwner(?User $owner): static
+    public function setOwner(User $owner): static
     {
-        // unset the owning side of the relation if necessary
-        if (null === $owner && null !== $this->owner) {
-            $this->owner->setToken(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if (null !== $owner && $owner->getToken() !== $this) {
-            $owner->setToken($this);
-        }
-
         $this->owner = $owner;
 
         return $this;

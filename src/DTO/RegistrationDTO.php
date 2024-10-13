@@ -10,28 +10,28 @@ class RegistrationDTO
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
-    private ?string $email = null;
+    private string $email;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    private ?string $password = null;
+    private string $password;
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setEmail(?string $email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(?string $password): void
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }

@@ -17,13 +17,15 @@ readonly class AccessTokenHandler implements AccessTokenHandlerInterface
 
     public function getUserBadgeFrom(string $accessToken): UserBadge
     {
-        /** @var Token $accessToken */
-        $accessToken = $this->entityManager->getRepository(Token::class)->find($accessToken);
+        try {
+            /** @var Token $token */
+            $token = $this->entityManager->getRepository(Token::class)->find($accessToken);
 
-        if (null === $accessToken || !$accessToken->isValid()) {
-            throw new BadCredentialsException('Invalid credentials.');
+            $token->isValid() ?: throw new \Exception();
+        } catch (\Exception) {
+            throw new BadCredentialsException();
         }
 
-        return new UserBadge($accessToken->getOwner()->getUserIdentifier());
+        return new UserBadge($token->getOwner()->getUserIdentifier());
     }
 }
