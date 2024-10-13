@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\DTO\RegistrationDTO;
-use App\Entity\Token;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +18,7 @@ class SecurityController extends AbstractController
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly EntityManagerInterface      $entityManager,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 

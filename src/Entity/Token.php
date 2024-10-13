@@ -5,9 +5,7 @@ namespace App\Entity;
 use App\Repository\TokenRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TokenRepository::class)]
@@ -65,12 +63,12 @@ class Token
     public function setOwner(?User $owner): static
     {
         // unset the owning side of the relation if necessary
-        if ($owner === null && $this->owner !== null) {
+        if (null === $owner && null !== $this->owner) {
             $this->owner->setToken(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($owner !== null && $owner->getToken() !== $this) {
+        if (null !== $owner && $owner->getToken() !== $this) {
             $owner->setToken($this);
         }
 
