@@ -13,27 +13,28 @@ Secret for now.
 <details>
 <summary>Création du projet</summary>
 
-- [ ] Création du projet Symfony 7.1
-- [ ] Déploiement sur GitHub
-- [ ] Intégrer PHPUnit
-- [ ] Intégrer PHPStan
-- [ ] Intégrer PHP CS Fixer
+- [x] Création du projet Symfony 7.1
+- [x] Déploiement sur GitHub
+- [x] Intégrer PHPUnit
+- [x] Intégrer PHPStan
+- [x] Intégrer PHP CS Fixer
 
 </details>
 
 <details>
 <summary>Création du repository GitHub</summary>
 
-- [ ] Premier commit du projet
-- [ ] Rédaction d’une première doc
-- [ ] Rédaction de la roadmap
-- [ ] Création d’une CI/CD GitHub
+- [x] Premier commit du projet
+- [x] Rédaction d’une première doc
+- [x] Rédaction de la roadmap
+- [x] Création d’une CI/CD GitHub
 
 </details>
 
 <details>
 <summary>Création du modèle User</summary>
 
+- [ ] Création du modèle User
 - [ ] Implémentation de l’authentification
 
 </details>
@@ -64,7 +65,7 @@ Secret for now.
 
 #### Get all items
 
-```http
+```
   GET /api/items
 ```
 
@@ -74,7 +75,7 @@ Secret for now.
 
 #### Get item
 
-```http
+```
   GET /api/items/${id}
 ```
 
