@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product\CustomProduct;
+use App\Entity\Product\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ final class ProductController extends BaseController
     {
     }
 
-    #[Route('/products', name: 'products', methods: ['get'])]
+    #[Route('/products', name: 'products.index', methods: ['get'])]
     #[IsGranted('ROLE_USER')]
     public function index(): JsonResponse
     {
@@ -25,8 +26,15 @@ final class ProductController extends BaseController
         return $this->json($products, Response::HTTP_OK, [], ['groups' => 'products.show']);
     }
 
-    #[Route('/products', name: 'products', methods: ['post'])]
-    #[IsGranted('ROLE_USER')]
+    #[Route('/products/{id}', name: 'products.show', methods: ['get'])]
+    #[IsGranted('view', 'product')]
+    public function show(Product $product): JsonResponse
+    {
+        return $this->json($product, Response::HTTP_OK, [], ['groups' => 'products.show']);
+    }
+
+    #[Route('/products', name: 'products.create', methods: ['post'])]
+    #[IsGranted('view', 'product')]
     public function create(#[MapRequestPayload] CustomProduct $product): JsonResponse
     {
         $product->setOwner($this->getCurrentUser());
