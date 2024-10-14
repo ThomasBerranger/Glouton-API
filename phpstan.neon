@@ -1,0 +1,3 @@
+parameters:
+    ignoreErrors:
+        - '#Class App\\Security\\.* extends generic class Symfony\\Component\\Security\\Core\\Authorization\\Voter\\Voter but does not specify its types: TAttribute, TSubject#'
