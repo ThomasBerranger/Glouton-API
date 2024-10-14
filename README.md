@@ -6,13 +6,17 @@ Secret for now.
 ## Tech Highlights
 
 - GitHub CI/CD
+
+Mise en place d'une intégration et d'un déploiement continue via les actions GitHub. 
+
+- Authentification via Token
+
+Intégration d'un système d'authentification via le AccessTokenHandler de Symfony et une gestion des Tokens.
+
 - Doctrine Discriminator
 
-<<<<<<< Updated upstream
-=======
 Implémentation d'un heritage entre l'entité mère Product et les entitées filles ScannedProduct et CustomProduct.
 
->>>>>>> Stashed changes
 ## Roadmap
 
 <details>
@@ -131,8 +135,6 @@ Takes two numbers and returns the sum.
 **Server:** Heroku
 
 **Database:** PHP Built-in Server, Mysql 8.0.33
-
-**Authentication and Authorization:** Heroku
 
 **Testing:** PHPUnit
 
