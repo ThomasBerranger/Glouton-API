@@ -21,7 +21,7 @@ final class ProductController extends BaseController
     }
 
     #[Route('/products', name: 'products.create', methods: ['post'])]
-    #[IsGranted('view', 'product')]
+    #[IsGranted('ROLE_USER')]
     public function create(#[MapRequestPayload] CustomProduct $product): JsonResponse
     {
         $product->setOwner($this->getCurrentUser());
