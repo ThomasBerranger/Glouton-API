@@ -1,8 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Symfony
 
 on:
@@ -40,11 +35,12 @@ jobs:
           
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      
-    - name: Create Database
+
+    - name: Create database
       run: |
-        mkdir -p data
-        touch data/database.sqlite
+        php bin/console doctrine:database:create
+        php bin/console doctrine:migrations:migrate --no-interaction
+        php bin/console doctrine:fixtures:load --no-interaction
       
     - name: Run PHP CS Fixer
       run: composer exec php-cs-fixer check
