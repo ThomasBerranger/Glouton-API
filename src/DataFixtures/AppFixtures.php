@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Tests\User as UserEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -15,14 +16,17 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user
-            ->setEmail('admin@gmail.com')
-            ->setRoles(['ROLE_ADMIN'])
-            ->setPassword($this->passwordHasherFactory->getPasswordHasher(User::class)->hash('admin'))
-            ->createToken();
+        foreach (UserEnum::cases() as $userEnum) {
+            $user = new User();
+            $user
+                ->setEmail($userEnum->getEmail())
+                ->setRoles($userEnum->getRole())
+                ->setPassword($this->passwordHasherFactory->getPasswordHasher(User::class)->hash($userEnum->getPlainPassword()))
+                ->createToken();
 
-        $manager->persist($user);
+            $manager->persist($user);
+        }
+
         $manager->flush();
     }
 }

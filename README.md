@@ -145,7 +145,7 @@ Takes two numbers and returns the sum.
 
 **Authentication and Authorization:** Heroku
 
-**Testing:** PHPUnit
+**Testing:** PHPUnit 9.5
 
 **Deployment Tools:** GitHub Actions
 

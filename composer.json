@@ -77,7 +77,7 @@
   "scripts": {
     "php-cs-fixer": "php-cs-fixer fix",
     "php-stan": "vendor/bin/phpstan analyse src/ --level=max",
-    "test": "vendor/bin/phpunit",
+    "test": "php bin/phpunit",
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "assets:install %PUBLIC_DIR%": "symfony-cmd",
