@@ -8,6 +8,11 @@ Secret for now.
 - GitHub CI/CD
 - Doctrine Discriminator
 
+<<<<<<< Updated upstream
+=======
+Implémentation d'un heritage entre l'entité mère Product et les entitées filles ScannedProduct et CustomProduct.
+
+>>>>>>> Stashed changes
 ## Roadmap
 
 <details>
@@ -42,24 +47,17 @@ Secret for now.
 <details>
 <summary>Création du modèle Product</summary>
 
-- [ ] Création du modèle Product parent
-- [ ] Création des modèles enfant
-- [ ] Get endpoint
-- [ ] Post endpoint
-- [ ] Patch endpoint
-- [ ] Delete endpoint
+- [x] Création du modèle Product parent
+- [x] Création des modèles enfant
+- [x] Get endpoint
+- [x] Post endpoint
+- [x] Patch endpoint
+- [x] Delete endpoint
 
 </details>
 
-<details>
-<summary>Création du modèle Product</summary>
-
-- [ ] Création du modèle ExpirationDate
-- [ ] Post endpoint
-- [ ] Patch endpoint
-- [ ] Delete endpoint
-
-</details>
+- [ ] Rédaction des tests d'authentification
+- [ ] Rédaction des tests sur les endpoints de Product
 
 ## API Reference
 
