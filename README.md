@@ -136,7 +136,7 @@ Takes two numbers and returns the sum.
 
 **Database:** PHP Built-in Server, Mysql 8.0.33
 
-**Testing:** PHPUnit
+**Testing:** PHPUnit 9.5
 
 **Deployment Tools:** GitHub Actions
 
