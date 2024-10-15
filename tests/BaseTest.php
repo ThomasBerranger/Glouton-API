@@ -33,13 +33,16 @@ abstract class BaseTest extends ApiTestCase
         return $this->user;
     }
 
-    protected static function persistAndFlush(object $object): void
+    protected static function persistAndFlush(object ...$objects): void
     {
         $container = static::getContainer();
 
         $entityManager = $container->get('doctrine.orm.entity_manager');
 
-        $entityManager->persist($object);
+        foreach ($objects as $object) {
+            $entityManager->persist($object);
+        }
+
         $entityManager->flush();
     }
 }
