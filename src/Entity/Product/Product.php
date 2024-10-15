@@ -34,19 +34,19 @@ class Product
     private ?User $owner = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['products.show'])]
+    #[Groups(['products.show', 'products.edit'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['products.show'])]
+    #[Groups(['products.show', 'products.edit'])]
     private ?string $image = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['products.show'])]
+    #[Groups(['products.show', 'products.edit'])]
     private ?\DateTimeInterface $finished_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['products.show'])]
+    #[Groups(['products.show', 'products.edit'])]
     private ?\DateTimeInterface $added_to_list_at = null;
 
     public function getId(): ?Uuid
