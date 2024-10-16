@@ -1,4 +1,3 @@
-
 # Glouton
 
 Secret for now.
@@ -7,7 +6,7 @@ Secret for now.
 
 - GitHub CI/CD
 
-Mise en place d'une intégration et d'un déploiement continue via les actions GitHub. 
+Mise en place d'une intégration et d'un déploiement continue via les actions GitHub.
 
 - Authentification via Token
 
@@ -16,6 +15,26 @@ Intégration d'un système d'authentification via le AccessTokenHandler de Symfo
 - Doctrine Discriminator
 
 Implémentation d'un heritage entre l'entité mère Product et les entitées filles ScannedProduct et CustomProduct.
+
+- Tests automatisés
+
+Concéption de tests automatisés avec PHPUnit.
+
+## Tech Stack
+
+**Programming Language:** PHP 8.2
+
+**Framework:** Symfony 7.1
+
+**Server:** Heroku
+
+**Database:** PHP Built-in Server, Mysql 8.0.33
+
+**Testing:** PHPUnit 9.5
+
+**Deployment Tools:** GitHub Actions
+
+**Code Quality Tools:** PHPStan, PHP CS Fixer
 
 ## Roadmap
 
@@ -60,8 +79,14 @@ Implémentation d'un heritage entre l'entité mère Product et les entitées fil
 
 </details>
 
-- [ ] Rédaction des tests d'authentification
-- [ ] Rédaction des tests sur les endpoints de Product
+<details>
+<summary>Rédaction des premiers tests</summary>
+
+- [x] Rédaction des tests d'authentification
+- [x] Rédaction des tests d'accès sur les endpoints de Product
+- [x] Rédaction des tests sur les endpoints de Product
+
+</details>
 
 ## API Reference
 
@@ -72,7 +97,7 @@ Implémentation d'un heritage entre l'entité mère Product et les entitées fil
 ```
 
 | Parameter  | Type     | Required | Description   |
-|:-----------| :------- |----------|:--------------|
+|:-----------|:---------|----------|:--------------|
 | `email`    | `string` | true     | Your email    |
 | `password` | `string` | true     | Your password |
 
@@ -86,11 +111,11 @@ Implémentation d'un heritage entre l'entité mère Product et les entitées fil
 #### Login
 
 ```
-  POST /login
+  POST /register
 ```
 
 | Parameter  | Type     | Required | Description   |
-|:-----------| :------- |----------|:--------------|
+|:-----------|:---------|----------|:--------------|
 | `username` | `string` | true     | Your email    |
 | `password` | `string` | true     | Your password |
 
@@ -107,37 +132,80 @@ Implémentation d'un heritage entre l'entité mère Product et les entitées fil
   POST /logout
 ```
 
-
----
-
-#### Get Product
+#### Create Product
 
 ```
-  GET /api/items/${id}
+  POST /products
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
+```json
+{
+  "name": "Product name",
+  "description": "Product description",
+  "image": "http://product-image-url",
+  "finished_at": "2024-10-15 15:16:17",
+  "added_to_list_at": "2024-10-14 15:16:17"
+}
+```
 
-#### add(num1, num2)
+| Parameter          | Required | Description                       |
+|:-------------------|----------|:----------------------------------|
+| `name`             | true     | Product name                      |
+| `description`      | false    | Product description               |
+| `image`            | false    | Url to product online image       |
+| `finished_at`      | false    | Product consumption date          |
+| `added_to_list_at` | false    | Product addition date to the list |
 
-Takes two numbers and returns the sum.
+#### Show Product list
 
----
+```
+  GET /products
+```
 
-## Tech Stack
+#### Show Product
 
-**Programming Language:** PHP 8.2
+```
+  GET /products/${id}
+```
 
-**Framework:** Symfony 7.1
+| Parameter | Type     | Required | Description         |
+|:----------|:---------|----------|:--------------------|
+| `id`      | `string` | true     | Id of item to fetch |
 
-**Server:** Heroku
+#### Update Product
 
-**Database:** PHP Built-in Server, Mysql 8.0.33
+```
+  PATCH /products/${id}
+```
 
-**Testing:** PHPUnit 9.5
+| Parameter | Type     | Required | Description        |
+|:----------|:---------|----------|:-------------------|
+| `id`      | `string` | true     | Id of item to edit |
 
-**Deployment Tools:** GitHub Actions
+```json
+{
+  "name": "Product name",
+  "description": "Product description",
+  "image": "http://product-image-url",
+  "finished_at": "2024-10-15 15:16:17",
+  "added_to_list_at": "2024-10-14 15:16:17"
+}
+```
 
-**Code Quality Tools:** PHPStan, PHP CS Fixer
+| Parameter          | Required | Description                       |
+|:-------------------|----------|:----------------------------------|
+| `name`             | true     | Product name                      |
+| `description`      | false    | Product description               |
+| `image`            | false    | Url to product online image       |
+| `finished_at`      | false    | Product consumption date          |
+| `added_to_list_at` | false    | Product addition date to the list |
+
+#### Delete Product
+
+```
+  DELETE /products/${id}
+```
+
+| Parameter | Type     | Required | Description          |
+|:----------|:---------|----------|:---------------------|
+| `id`      | `string` | true     | Id of item to delete |
