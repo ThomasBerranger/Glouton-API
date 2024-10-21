@@ -20,6 +20,10 @@ Implémentation d'un heritage entre l'entité mère Product et les entitées fil
 
 Concéption de tests automatisés avec PHPUnit.
 
+- Bonus
+
+#[MapRequestPayload] \ ?
+
 ## Tech Stack
 
 **Programming Language:** PHP 8.2
@@ -88,18 +92,17 @@ Concéption de tests automatisés avec PHPUnit.
 
 </details>
 
+Rédaction des premiers tests
+- [ ] Création du modèle Expiration date
+- [ ] Modification des endpoints Product
+
 ## API Reference
 
 #### Register
 
 ```
-  POST /login
+  POST /register
 ```
-
-| Parameter  | Type     | Required | Description   |
-|:-----------|:---------|----------|:--------------|
-| `email`    | `string` | true     | Your email    |
-| `password` | `string` | true     | Your password |
 
 ```json
 {
@@ -108,10 +111,15 @@ Concéption de tests automatisés avec PHPUnit.
 }
 ```
 
+| Parameter  | Type     | Required | Description   |
+|:-----------|:---------|----------|:--------------|
+| `email`    | `string` | true     | Your email    |
+| `password` | `string` | true     | Your password |
+
 #### Login
 
 ```
-  POST /register
+  POST /login
 ```
 
 | Parameter  | Type     | Required | Description   |
