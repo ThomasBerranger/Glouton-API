@@ -23,10 +23,25 @@ final class ProductController extends BaseController
 
     #[Route('/scanned-products', name: 'scanned.products.create', methods: ['post'], format: 'json')]
     #[IsGranted('ROLE_USER')]
-    public function create(#[MapRequestPayload(
-        serializationContext: ['products.create', 'scanned.products.create'],
+    public function scannedCreate(#[MapRequestPayload(
+        serializationContext: ['products.edit', 'scanned.products.edit'],
         validationGroups: ['products.create'],
     )] ScannedProduct $product): JsonResponse
+    {
+        $product->setOwner($this->getCurrentUser());
+
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+
+        return $this->json($product, Response::HTTP_CREATED, context: ['groups' => 'products.show']);
+    }
+
+    #[Route('/custom-products', name: 'custom.products.create', methods: ['post'], format: 'json')]
+    #[IsGranted('ROLE_USER')]
+    public function customCreate(#[MapRequestPayload(
+        serializationContext: ['products.edit', 'custom.products.edit'],
+        validationGroups: ['products.create'],
+    )] CustomProduct $product): JsonResponse
     {
         $product->setOwner($this->getCurrentUser());
 
@@ -52,14 +67,34 @@ final class ProductController extends BaseController
         return $this->json($product, Response::HTTP_OK, context: ['groups' => 'products.show']);
     }
 
-    #[Route('/products/{id}', name: 'products.edit', methods: ['patch'], format: 'json')]
+    #[Route('/scanned-products/{id}', name: 'scanned.products.edit', methods: ['patch'], format: 'json')]
     #[IsGranted('edit', 'product')]
-    public function edit(Request $request, Product $product, SerializerInterface $serializer): JsonResponse
+    public function scannedEdit(Request $request, ScannedProduct $product, SerializerInterface $serializer): JsonResponse
     {
-        $product = $serializer->deserialize($request->getContent(), Product::class, 'json', [
+        $product = $serializer->deserialize($request->getContent(), ScannedProduct::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $product,
             AbstractNormalizer::GROUPS => 'products.edit',
         ]);
+
+        // todo: validation des constraints
+
+        $this->entityManager->flush();
+
+        return $this->json($product, Response::HTTP_OK, context: ['groups' => 'products.show']);
+    }
+
+    #[Route('/custom-products/{id}', name: 'custom.products.edit', methods: ['patch'], format: 'json')]
+    #[IsGranted('edit', 'product')]
+    public function customEdit(Request $request, CustomProduct $product, SerializerInterface $serializer): JsonResponse
+    {
+        $product = $serializer->deserialize($request->getContent(), CustomProduct::class, 'json', [
+            AbstractNormalizer::OBJECT_TO_POPULATE => $product,
+            AbstractNormalizer::GROUPS => 'products.edit',
+        ]);
+
+        // todo: validation des constraints
+
+        $this->entityManager->flush();
 
         return $this->json($product, Response::HTTP_OK, context: ['groups' => 'products.show']);
     }
