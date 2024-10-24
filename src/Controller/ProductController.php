@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\Product;
+use App\Entity\Product\ScannedProduct;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,9 +21,12 @@ final class ProductController extends BaseController
     {
     }
 
-    #[Route('/products', name: 'products.create', methods: ['post'])]
+    #[Route('/scanned-products', name: 'scanned.products.create', methods: ['post'], format: 'json')]
     #[IsGranted('ROLE_USER')]
-    public function create(#[MapRequestPayload] CustomProduct $product): JsonResponse
+    public function create(#[MapRequestPayload(
+        serializationContext: ['products.create', 'scanned.products.create'],
+        validationGroups: ['products.create'],
+    )] ScannedProduct $product): JsonResponse
     {
         $product->setOwner($this->getCurrentUser());
 
@@ -32,7 +36,7 @@ final class ProductController extends BaseController
         return $this->json($product, Response::HTTP_CREATED, context: ['groups' => 'products.show']);
     }
 
-    #[Route('/products', name: 'products.index', methods: ['get'])]
+    #[Route('/products', name: 'products.index', methods: ['get'], format: 'json')]
     #[IsGranted('ROLE_USER')]
     public function index(): JsonResponse
     {
@@ -41,26 +45,26 @@ final class ProductController extends BaseController
         return $this->json($products, Response::HTTP_OK, context: ['groups' => 'products.show']);
     }
 
-    #[Route('/products/{id}', name: 'products.show', methods: ['get'])]
+    #[Route('/products/{id}', name: 'products.show', methods: ['get'], format: 'json')]
     #[IsGranted('view', 'product')]
     public function show(Product $product): JsonResponse
     {
         return $this->json($product, Response::HTTP_OK, context: ['groups' => 'products.show']);
     }
 
-    #[Route('/products/{id}', name: 'products.edit', methods: ['patch'])]
+    #[Route('/products/{id}', name: 'products.edit', methods: ['patch'], format: 'json')]
     #[IsGranted('edit', 'product')]
     public function edit(Request $request, Product $product, SerializerInterface $serializer): JsonResponse
     {
         $product = $serializer->deserialize($request->getContent(), Product::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $product,
-            'groups' => 'products.edit',
+            AbstractNormalizer::GROUPS => 'products.edit',
         ]);
 
         return $this->json($product, Response::HTTP_OK, context: ['groups' => 'products.show']);
     }
 
-    #[Route('/products/{id}', name: 'products.delete', methods: ['delete'])]
+    #[Route('/products/{id}', name: 'products.delete', methods: ['delete'], format: 'json')]
     #[IsGranted('edit', 'product')]
     public function delete(CustomProduct $product): JsonResponse
     {

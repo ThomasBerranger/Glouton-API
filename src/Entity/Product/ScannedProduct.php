@@ -6,24 +6,26 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[Entity]
 class ScannedProduct extends Product
 {
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(groups: ['products.create'])]
     private string $barcode;
 
     #[ORM\Column(length: 1, nullable: true)]
-    #[Groups(['products.show'])]
+    #[Groups(['products.show', 'products.edit'])]
     private ?string $nutriscore = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Groups(['products.show'])]
+    #[Groups(['products.show', 'products.edit'])]
     private ?int $novagroup = null;
 
     #[ORM\Column(length: 1, nullable: true)]
-    #[Groups(['products.show'])]
-    private ?string $ecoscore = null;
+    #[Groups(['products.show', 'products.edit'])]
+    private ?int $ecoscore = null;
 
     public function getBarcode(): string
     {
@@ -59,12 +61,12 @@ class ScannedProduct extends Product
         return $this;
     }
 
-    public function getEcoscore(): ?string
+    public function getEcoscore(): ?int
     {
         return $this->ecoscore;
     }
 
-    public function setEcoscore(?string $ecoscore): static
+    public function setEcoscore(?int $ecoscore): static
     {
         $this->ecoscore = $ecoscore;
 

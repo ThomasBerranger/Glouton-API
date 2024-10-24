@@ -2,13 +2,17 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\ExpirationDate;
 use App\Entity\User;
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
@@ -27,6 +31,8 @@ class Product
 
     #[ORM\Column(length: 255)]
     #[Groups(['products.show', 'products.edit'])]
+    #[Assert\NotBlank(groups: ['products.create'])]
+    #[Assert\Length(max: 255)]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
@@ -43,11 +49,23 @@ class Product
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['products.show', 'products.edit'])]
-    private ?\DateTimeInterface $finished_at = null;
+    private ?\DateTimeInterface $finishedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['products.show', 'products.edit'])]
-    private ?\DateTimeInterface $added_to_list_at = null;
+    private ?\DateTimeInterface $addedToListAt = null;
+
+    /**
+     * @var Collection<int, ExpirationDate>
+     */
+    #[ORM\OneToMany(targetEntity: ExpirationDate::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['products.show', 'products.edit'])]
+    private Collection $expirationDates;
+
+    public function __construct()
+    {
+        $this->expirationDates = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -104,24 +122,54 @@ class Product
 
     public function getFinishedAt(): ?\DateTimeInterface
     {
-        return $this->finished_at;
+        return $this->finishedAt;
     }
 
-    public function setFinishedAt(?\DateTimeInterface $finished_at): static
+    public function setFinishedAt(?\DateTimeInterface $finishedAt): static
     {
-        $this->finished_at = $finished_at;
+        $this->finishedAt = $finishedAt;
 
         return $this;
     }
 
     public function getAddedToListAt(): ?\DateTimeInterface
     {
-        return $this->added_to_list_at;
+        return $this->addedToListAt;
     }
 
-    public function setAddedToListAt(?\DateTimeInterface $added_to_list_at): static
+    public function setAddedToListAt(?\DateTimeInterface $addedToListAt): static
     {
-        $this->added_to_list_at = $added_to_list_at;
+        $this->addedToListAt = $addedToListAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ExpirationDate>
+     */
+    public function getExpirationDates(): Collection
+    {
+        return $this->expirationDates;
+    }
+
+    public function addExpirationDate(ExpirationDate $expirationDate): static
+    {
+        if (!$this->expirationDates->contains($expirationDate)) {
+            $this->expirationDates->add($expirationDate);
+            $expirationDate->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpirationDate(ExpirationDate $expirationDate): static
+    {
+        if ($this->expirationDates->removeElement($expirationDate)) {
+            // set the owning side to null (unless already changed)
+            if ($expirationDate->getProduct() === $this) {
+                $expirationDate->setProduct(null);
+            }
+        }
 
         return $this;
     }

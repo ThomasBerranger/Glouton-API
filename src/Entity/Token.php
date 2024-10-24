@@ -18,14 +18,14 @@ class Token
     private ?Uuid $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $expiry_date = null;
+    private ?\DateTimeInterface $expirationDate = null;
 
     #[ORM\OneToOne(mappedBy: 'token')]
     private User $owner;
 
     public function __construct()
     {
-        $this->expiry_date = new \DateTime('now + 1 month + 2 hours');
+        $this->expirationDate = new \DateTime('now + 1 month + 2 hours');
     }
 
     public function __toString(): string
@@ -38,21 +38,21 @@ class Token
         return $this->id;
     }
 
-    public function getExpiryDate(): ?\DateTimeInterface
+    public function getExpirationDate(): ?\DateTimeInterface
     {
-        return $this->expiry_date;
+        return $this->expirationDate;
     }
 
-    public function setExpiryDate(\DateTimeInterface $expiry_date): static
+    public function setExpirationDate(\DateTimeInterface $expirationDate): static
     {
-        $this->expiry_date = $expiry_date;
+        $this->expirationDate = $expirationDate;
 
         return $this;
     }
 
     public function isValid(): bool
     {
-        return new \DateTime() <= $this->expiry_date;
+        return new \DateTime() <= $this->expirationDate;
     }
 
     public function getOwner(): User
