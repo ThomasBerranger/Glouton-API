@@ -27,7 +27,7 @@ class ExpirationDate
     #[Groups(['products.show', 'products.edit'])]
     private ?\DateTimeInterface $date = null;
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

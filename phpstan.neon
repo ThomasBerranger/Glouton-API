@@ -1,3 +1,4 @@
 parameters:
     ignoreErrors:
         - '#Class App\\Security\\.* extends generic class Symfony\\Component\\Security\\Core\\Authorization\\Voter\\Voter but does not specify its types: TAttribute, TSubject#'
+        - '#Parameter \$serializationContext of attribute class Symfony\\Component\\HttpKernel\\Attribute\\MapRequestPayload constructor expects array<string, mixed>, array<int, string> given.#'

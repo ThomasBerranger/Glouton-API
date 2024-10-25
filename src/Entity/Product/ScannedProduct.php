@@ -32,9 +32,11 @@ class ScannedProduct extends Product
         return $this->barcode;
     }
 
-    public function setBarcode(string $barcode): void
+    public function setBarcode(string $barcode): static
     {
         $this->barcode = $barcode;
+
+        return $this;
     }
 
     public function getNutriscore(): ?string
