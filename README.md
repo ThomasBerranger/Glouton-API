@@ -115,8 +115,8 @@ ex: ...
 
 | Parameter  | Type     | Required | Description   |
 |:-----------|:---------|----------|:--------------|
-| `email`    | `string` | true     | Your email    |
-| `password` | `string` | true     | Your password |
+| `email`    | `string` | **true** | Your email    |
+| `password` | `string` | **true** | Your password |
 
 ```json
 {
@@ -133,8 +133,8 @@ ex: ...
 
 | Parameter  | Type     | Required | Description   |
 |:-----------|:---------|----------|:--------------|
-| `username` | `string` | true     | Your email    |
-| `password` | `string` | true     | Your password |
+| `username` | `string` | **true** | Your email    |
+| `password` | `string` | **true** | Your password |
 
 ```json
 {

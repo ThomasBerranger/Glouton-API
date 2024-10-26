@@ -30,7 +30,7 @@ class Product
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['show_product', 'edit_product'])]
+    #[Groups(['show_product', 'edit_product', 'show_recipe'])]
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(max: 255)]
     private ?string $name = null;
