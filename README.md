@@ -26,9 +26,9 @@ Concéption de tests automatisés avec PHPUnit.
 
 **Framework:** Symfony 7.1
 
-**Server:** Heroku
+**Server:** PHP Built-in Server, Heroku
 
-**Database:** PHP Built-in Server, Mysql 8.0.33
+**Database:** Mysql 8.0.33
 
 **Testing:** PHPUnit 9.5
 
@@ -80,11 +80,12 @@ Concéption de tests automatisés avec PHPUnit.
 </details>
 
 <details>
-<summary>Rédaction des premiers tests</summary>
+<summary>Rédaction des premiers tests unitaires et fonctionnels</summary>
 
 - [x] Rédaction des tests d'authentification
 - [x] Rédaction des tests d'accès sur les endpoints de Product
-- [x] Rédaction des tests sur les endpoints de Product
+- [x] Rédaction des tests de serialization sur Product
+- [x] Rédaction des tests de validation sur Product
 
 </details>
 
