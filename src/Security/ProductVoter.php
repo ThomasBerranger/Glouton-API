@@ -14,7 +14,6 @@ final class ProductVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        //        dd($attribute, $subject);
         return in_array($attribute, [self::VIEW, self::EDIT]) && $subject instanceof Product;
     }
 
