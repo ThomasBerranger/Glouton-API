@@ -69,7 +69,7 @@ final class ProductController extends BaseController
 
     #[Route('/scanned-products/{id}', name: 'scanned.products.edit', methods: ['patch'], format: 'json')]
     #[IsGranted('edit', 'product')]
-    public function scannedEdit(Request $request, ScannedProduct $product, SerializerInterface $serializer): JsonResponse
+    public function scannedEdit(ScannedProduct $product, Request $request, SerializerInterface $serializer): JsonResponse
     {
         $product = $serializer->deserialize($request->getContent(), ScannedProduct::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $product,
@@ -85,7 +85,7 @@ final class ProductController extends BaseController
 
     #[Route('/custom-products/{id}', name: 'custom.products.edit', methods: ['patch'], format: 'json')]
     #[IsGranted('edit', 'product')]
-    public function customEdit(Request $request, CustomProduct $product, SerializerInterface $serializer): JsonResponse
+    public function customEdit(CustomProduct $product, Request $request, SerializerInterface $serializer): JsonResponse
     {
         $product = $serializer->deserialize($request->getContent(), CustomProduct::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $product,

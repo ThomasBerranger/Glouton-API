@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 class Recipe
@@ -27,11 +28,16 @@ class Recipe
 
     #[ORM\Column(length: 255)]
     #[Groups(['show_recipe', 'edit_recipe'])]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['show_recipe', 'edit_recipe'])]
     private ?string $description = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    #[Groups(['show_recipe', 'edit_recipe'])]
+    private ?\DateTimeInterface $duration = null;
 
     /**
      * @var Collection<int, Product>
@@ -39,10 +45,6 @@ class Recipe
     #[ORM\ManyToMany(targetEntity: Product::class)]
     #[Groups(['show_recipe'])]
     private Collection $products;
-
-    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    #[Groups(['show_recipe', 'edit_recipe'])]
-    private ?\DateTimeInterface $duration = null;
 
     public function __construct()
     {
@@ -90,6 +92,18 @@ class Recipe
         return $this;
     }
 
+    public function getDuration(): ?string
+    {
+        return $this->duration?->format('H:i:s');
+    }
+
+    public function setDuration(?\DateTimeInterface $duration): static
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Product>
      */
@@ -110,18 +124,6 @@ class Recipe
     public function removeProduct(Product $product): static
     {
         $this->products->removeElement($product);
-
-        return $this;
-    }
-
-    public function getDuration(): ?string
-    {
-        return $this->duration->format('H:i:s');
-    }
-
-    public function setDuration(?\DateTimeInterface $duration): static
-    {
-        $this->duration = $duration;
 
         return $this;
     }

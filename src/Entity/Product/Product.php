@@ -31,7 +31,7 @@ class Product
 
     #[ORM\Column(length: 255)]
     #[Groups(['show_product', 'edit_product', 'show_recipe'])]
-    #[Assert\NotBlank(groups: ['create'])]
+    #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     private ?string $name = null;
 
