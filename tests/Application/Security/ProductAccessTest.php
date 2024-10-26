@@ -4,7 +4,6 @@ namespace App\Tests\Application\Security;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\Product\CustomProduct;
-use App\Entity\Product\Product;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
 use App\Tests\User;
@@ -69,14 +68,14 @@ class ProductAccessTest extends BaseTest
         $this->client = static::createClient();
         $this->login($this->client, User::USER2);
 
-        $this->client->request('DELETE', '/products/' . $product->getId());
+        $this->client->request('DELETE', '/products/'.$product->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
         $this->client = static::createClient();
         $this->login($this->client, User::USER);
 
-        $this->client->request('DELETE', '/products/' . $product->getId());
+        $this->client->request('DELETE', '/products/'.$product->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
     }

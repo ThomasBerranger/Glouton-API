@@ -39,7 +39,7 @@ class ShowTest extends BaseTest
 
         static::persistAndFlush($product);
 
-        $this->client->request('GET', '/products/' . $product->getId());
+        $this->client->request('GET', '/products/'.$product->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -69,7 +69,7 @@ class ShowTest extends BaseTest
 
         static::persistAndFlush($product);
 
-        $this->client->request('GET', '/products/' . $product->getId());
+        $this->client->request('GET', '/products/'.$product->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 

@@ -24,7 +24,7 @@ class ExpirationDate
     private ?Product $product = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?\DateTimeInterface $date = null;
 
     public function getId(): ?Uuid

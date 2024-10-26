@@ -47,11 +47,13 @@ class EditTest extends BaseTest
             'addedToListAt' => '2025-01-02T00:00:00+00:00',
             'nutriscore' => 'B',
             'ecoscore' => 3,
-            'novagroup' => 2
-            // todo: ajouter des dates d'expiration
+            'novagroup' => 2,
+            'expirationDates' => [
+                ['date' => '2025-01-02T00:00:00+00:00'],
+            ],
         ];
 
-        $this->client->request('PATCH', '/scanned-products/' . $product->getId(), ['json' => $payload]);
+        $this->client->request('PATCH', '/scanned-products/'.$product->getId(), ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -80,7 +82,7 @@ class EditTest extends BaseTest
             'addedToListAt' => '2025-01-02T00:00:00+00:00',
         ];
 
-        $this->client->request('PATCH', '/custom-products/' . $product->getId(), ['json' => $payload]);
+        $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 

@@ -12,19 +12,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ScannedProduct extends Product
 {
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(groups: ['products.create'])]
+    #[Assert\NotBlank(groups: ['create'])]
+    #[Groups(['edit_product'])]
     private string $barcode;
 
     #[ORM\Column(length: 1, nullable: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?string $nutriscore = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?int $novagroup = null;
 
     #[ORM\Column(length: 1, nullable: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?int $ecoscore = null;
 
     public function getBarcode(): string

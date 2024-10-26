@@ -62,7 +62,7 @@ class IndexTest extends BaseTest
                 'addedToListAt' => $firstProduct->getAddedToListAt(),
                 'expirationDates' => $firstProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
-                })->toArray()
+                })->toArray(),
             ],
             [
                 'name' => $secondProduct->getName(),
@@ -72,7 +72,7 @@ class IndexTest extends BaseTest
                 'addedToListAt' => $secondProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
                 'nutriscore' => $secondProduct->getNutriscore(),
                 'ecoscore' => $secondProduct->getEcoscore(),
-                'novagroup' => $secondProduct->getNovagroup()
+                'novagroup' => $secondProduct->getNovagroup(),
             ],
         ]);
     }

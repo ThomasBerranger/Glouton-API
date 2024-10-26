@@ -30,8 +30,8 @@ class Product
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['products.show', 'products.edit'])]
-    #[Assert\NotBlank(groups: ['products.create'])]
+    #[Groups(['show_product', 'edit_product'])]
+    #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(max: 255)]
     private ?string $name = null;
 
@@ -40,26 +40,26 @@ class Product
     private ?User $owner = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?string $image = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?\DateTimeInterface $finishedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private ?\DateTimeInterface $addedToListAt = null;
 
     /**
      * @var Collection<int, ExpirationDate>
      */
     #[ORM\OneToMany(targetEntity: ExpirationDate::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[Groups(['products.show', 'products.edit'])]
+    #[Groups(['show_product', 'edit_product'])]
     private Collection $expirationDates;
 
     public function __construct()

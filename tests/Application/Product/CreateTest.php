@@ -3,7 +3,6 @@
 namespace App\Tests\Application\Product;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
-use App\Entity\Product\CustomProduct;
 use App\Tests\BaseTest;
 use App\Tests\User;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +34,7 @@ class CreateTest extends BaseTest
             'ecoscore' => 3,
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
-            ]
+            ],
         ];
 
         $this->client->request('POST', '/scanned-products', ['json' => $payload]);
@@ -58,7 +57,7 @@ class CreateTest extends BaseTest
             'addedToListAt' => '2024-10-14T15:16:17+00:00',
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
-            ]
+            ],
         ];
 
         $this->client->request('POST', '/custom-products', ['json' => $payload]);
@@ -81,7 +80,7 @@ class CreateTest extends BaseTest
             'addedToListAt' => '2024-10-14T15:16:17+00:00',
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
-            ]
+            ],
         ];
 
         foreach ($requiredProperties as $requiredProperty) {
@@ -106,14 +105,14 @@ class CreateTest extends BaseTest
     public function testCustomProductCreateFail(): void
     {
         $payload = [
-//            'name' => 'Product name',
+            //            'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'http://product-image-url',
             'finishedAt' => '2024-10-15T15:16:17+00:00',
             'addedToListAt' => '2024-10-14T15:16:17+00:00',
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
-            ]
+            ],
         ];
 
         $this->client->request('POST', '/custom-products', ['json' => $payload]);
