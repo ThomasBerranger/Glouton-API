@@ -2,13 +2,13 @@
 
 namespace App\Utils;
 
-use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
 trait ValidatorTrait
 {
-    protected readonly ValidatorInterface $validator;
+    private ValidatorInterface $validator;
 
     #[Required]
     public function setValidator(ValidatorInterface $validator): void
@@ -16,15 +16,18 @@ trait ValidatorTrait
         $this->validator = $validator;
     }
 
+    /**
+    * @return array<string, string>
+    */
     public function validate(object $object): array
     {
         $errors = $this->validator->validate($object);
 
         return array_merge(...array_map(
-            function (ConstraintViolation $violation) {
+            function (ConstraintViolationInterface $violation): array {
                 return [$violation->getPropertyPath() => $violation->getMessage()];
             },
-            $errors->getIterator()->getArrayCopy()
+            iterator_to_array($errors)
         ));
     }
 }

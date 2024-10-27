@@ -11,70 +11,34 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductTest extends BaseTest
 {
-    public function testScannedProductDeserializationGroup(): void
+    public function testScannedProductSerializationGroup(): void
     {
         $normalizer = $this->getContainer()->get(NormalizerInterface::class);
 
         $scannedProduct = new ScannedProduct();
-        $scannedProduct
-            ->setName('Product name')
-            ->setOwner($this->getUser(User::USER))
-            ->setDescription('Product description')
-            ->setImage('https://product-image-url')
-            ->setFinishedAt(new \DateTime('01/01/2025'))
-            ->setAddedToListAt(new \DateTime('01/01/2025'))
-            ->setBarcode('123')
-            ->setNutriscore('A')
-            ->setEcoscore(1)
-            ->setNovagroup(4)
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01/01/2025')));
+        $scannedProduct->addExpirationDate(new ExpirationDate());
 
         $normalizedScannedProduct = $normalizer->normalize($scannedProduct, context: ['groups' => ['show_product']]);
 
-        $this->assertArrayNotHasKey('id', $normalizedScannedProduct);
-        $this->assertArrayNotHasKey('owner', $normalizedScannedProduct);
-        $this->assertArrayNotHasKey('barcode', $normalizedScannedProduct);
-
-        $this->assertArrayNotHasKey('id', $normalizedScannedProduct['expirationDates']);
-        $this->assertArrayNotHasKey('product', $normalizedScannedProduct['expirationDates']);
+        $this->assertSame(['nutriscore', 'novagroup', 'ecoscore', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates'], array_keys($normalizedScannedProduct));
+        $this->assertSame(['date'], array_keys($normalizedScannedProduct['expirationDates'][0]));
 
         $normalizedScannedProduct = $normalizer->normalize($scannedProduct, context: ['groups' => ['edit_product']]);
 
-        $this->assertArrayNotHasKey('id', $normalizedScannedProduct);
-        $this->assertArrayNotHasKey('owner', $normalizedScannedProduct);
-
-        $this->assertArrayNotHasKey('id', $normalizedScannedProduct['expirationDates']);
-        $this->assertArrayNotHasKey('product', $normalizedScannedProduct['expirationDates']);
+        $this->assertSame(['nutriscore', 'novagroup', 'ecoscore', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates'], array_keys($normalizedScannedProduct));
+        $this->assertSame(['date'], array_keys($normalizedScannedProduct['expirationDates'][0]));
     }
 
-    public function testCustomProductDeserializationGroup(): void
+    public function testCustomProductSerializationGroup(): void
     {
         $normalizer = $this->getContainer()->get(NormalizerInterface::class);
 
         $customProduct = new CustomProduct();
-        $customProduct
-            ->setName('Product name')
-            ->setOwner($this->getUser(User::USER))
-            ->setDescription('Product description')
-            ->setImage('https://product-image-url')
-            ->setFinishedAt(new \DateTime('01/01/2025'))
-            ->setAddedToListAt(new \DateTime('01/01/2025'))
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01/01/2025')));
+        $customProduct->addExpirationDate(new ExpirationDate());
 
         $normalizedCustomProduct = $normalizer->normalize($customProduct, context: ['groups' => ['show_product']]);
 
-        $this->assertArrayNotHasKey('id', $normalizedCustomProduct);
-        $this->assertArrayNotHasKey('owner', $normalizedCustomProduct);
-
-        $this->assertArrayNotHasKey('id', $normalizedCustomProduct['expirationDates']);
-        $this->assertArrayNotHasKey('product', $normalizedCustomProduct['expirationDates']);
-
-        $normalizedCustomProduct = $normalizer->normalize($customProduct, context: ['groups' => ['edit_product']]);
-
-        $this->assertArrayNotHasKey('id', $normalizedCustomProduct);
-        $this->assertArrayNotHasKey('owner', $normalizedCustomProduct);
-
-        $this->assertArrayNotHasKey('id', $normalizedCustomProduct['expirationDates']);
-        $this->assertArrayNotHasKey('product', $normalizedCustomProduct['expirationDates']);
+        $this->assertSame(['name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates'], array_keys($normalizedCustomProduct));
+        $this->assertSame(['date'], array_keys($normalizedCustomProduct['expirationDates'][0]));
     }
 }
