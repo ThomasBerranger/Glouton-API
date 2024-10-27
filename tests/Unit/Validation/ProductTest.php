@@ -2,11 +2,9 @@
 
 namespace App\Tests\Unit\Validation;
 
-use App\Entity\ExpirationDate;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
-use App\Tests\User;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 

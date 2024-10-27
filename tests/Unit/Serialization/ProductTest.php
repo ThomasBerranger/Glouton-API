@@ -6,7 +6,6 @@ use App\Entity\ExpirationDate;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
-use App\Tests\User;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductTest extends BaseTest

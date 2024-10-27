@@ -17,8 +17,8 @@ trait ValidatorTrait
     }
 
     /**
-    * @return array<string, string>
-    */
+     * @return array<string, string>
+     */
     public function validate(object $object): array
     {
         $errors = $this->validator->validate($object);
