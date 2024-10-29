@@ -24,7 +24,7 @@ class ProductAccessTest extends BaseTest
      *
      * @dataProvider requestCreateIndexParamsProvider
      */
-    public function testProductCreateIndexAccess(string $method, string $url, array $options, int $expectedStatusCode): void
+    public function testCreateIndexAccess(string $method, string $url, array $options, int $expectedStatusCode): void
     {
         $this->client->request($method, $url, $options);
 
@@ -52,7 +52,7 @@ class ProductAccessTest extends BaseTest
      *
      * @dataProvider requestShowDeleteParamsProvider
      */
-    public function testProductDeleteAccess(string $method, string $url, array $options, int $expectedStatusCode): void
+    public function testShowDeleteAccess(string $method, string $url, array $options, int $expectedStatusCode): void
     {
         $product = new CustomProduct();
         $product
@@ -61,23 +61,23 @@ class ProductAccessTest extends BaseTest
 
         static::persistAndFlush($product);
 
-        $this->client->request('DELETE', '/products/'.$product->getId());
+        $this->client->request($method, $url.$product->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
 
         $this->client = static::createClient();
         $this->login($this->client, User::USER2);
 
-        $this->client->request('DELETE', '/products/'.$product->getId());
+        $this->client->request($method, $url.$product->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
         $this->client = static::createClient();
         $this->login($this->client, User::USER);
 
-        $this->client->request('DELETE', '/products/'.$product->getId());
+        $this->client->request($method, $url.$product->getId());
 
-        $this->assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
+        $this->assertResponseStatusCodeSame($expectedStatusCode);
     }
 
     public function requestShowDeleteParamsProvider(): array
@@ -91,31 +91,30 @@ class ProductAccessTest extends BaseTest
     /**
      * @throws ExceptionInterface
      */
-    public function testScannedProductShowUpdateDeleteAccess(): void
+    public function testScannedProductEditAccess(): void
     {
         $product = new ScannedProduct();
         $product
             ->setOwner($this->getUser(User::USER))
-            ->setName('Product name')
-            ->setBarcode('123');
+            ->setName('Product name');
 
         static::persistAndFlush($product);
 
-        $this->client->request('PATCH', '/scanned-products/'.$product->getId(), ['json' => ['name' => 'New product name']]);
+        $this->client->request('PATCH', '/scanned-products/'.$product->getId(), ['json' => []]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
 
         $this->client = static::createClient();
         $this->login($this->client, User::USER2);
 
-        $this->client->request('PATCH', '/scanned-products/'.$product->getId(), ['json' => ['name' => 'New product name']]);
+        $this->client->request('PATCH', '/scanned-products/'.$product->getId(), ['json' => []]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
         $this->client = static::createClient();
         $this->login($this->client, User::USER);
 
-        $this->client->request('PATCH', '/scanned-products/'.$product->getId(), ['json' => ['name' => 'New product name']]);
+        $this->client->request('PATCH', '/scanned-products/'.$product->getId(), ['json' => []]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
@@ -123,30 +122,30 @@ class ProductAccessTest extends BaseTest
     /**
      * @throws ExceptionInterface
      */
-    public function testCustomProductShowUpdateDeleteAccess(): void
+    public function testCustomProductEditAccess(): void
     {
         $product = new CustomProduct();
         $product
             ->setOwner($this->getUser(User::USER))
-            ->setName('New product name');
+            ->setName('Product name');
 
         static::persistAndFlush($product);
 
-        $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => ['name' => 'New product name']]);
+        $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => []]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
 
         $this->client = static::createClient();
         $this->login($this->client, User::USER2);
 
-        $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => ['name' => 'New product name']]);
+        $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => []]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
         $this->client = static::createClient();
         $this->login($this->client, User::USER);
 
-        $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => ['name' => 'New product name']]);
+        $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => []]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }

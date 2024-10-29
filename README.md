@@ -32,6 +32,10 @@ Utilisation des groupes de serialization et validation sur les propriétés des 
 
 ex: ...
 
+- Création de Fixtures
+
+ex: ...
+
 ## Tech Stack
 
 **Programming Language:** PHP 8.2
@@ -115,8 +119,8 @@ ex: ...
 
 | Parameter  | Type     | Required | Description   |
 |:-----------|:---------|----------|:--------------|
-| `email`    | `string` | true     | Your email    |
-| `password` | `string` | true     | Your password |
+| `email`    | `string` | **true** | Your email    |
+| `password` | `string` | **true** | Your password |
 
 ```json
 {
@@ -133,8 +137,8 @@ ex: ...
 
 | Parameter  | Type     | Required | Description   |
 |:-----------|:---------|----------|:--------------|
-| `username` | `string` | true     | Your email    |
-| `password` | `string` | true     | Your password |
+| `username` | `string` | **true** | Your email    |
+| `password` | `string` | **true** | Your password |
 
 ```json
 {
