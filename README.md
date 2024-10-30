@@ -28,13 +28,21 @@ Attribution de rôles aux utilisateurs et vérification des droits via des Voter
 
 Utilisation des groupes de serialization et validation sur les propriétés des modèles.
 
-- Mise en place de relations
+- [Mise en place de relations](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/Entity/Recipe.php)
 
-ex: ...
+Liaisons des entités via les types OneToOne, ManyToOne et ManyToMany avec la persistence configurée et la suppression d'éléments orphelins. 
 
-- Création de Fixtures
+- [Création de Fixtures](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/DataFixtures/RecipeFixtures.php)
 
-ex: ...
+Création de fixtures ordonnées et liées via références pour les tests.
+
+- Mise en place de Listeners
+
+ex: ... sur la création et l'update de chaque entité concernée ?
+
+- Utilisation de Messenger
+
+ex: ... gestion de mail en asynchrone - envoie de mail ?
 
 ## Tech Stack
 
