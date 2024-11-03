@@ -1,48 +1,41 @@
 # Glouton
 
-Secret for now.
+[Glouton](https://github.com/ThomasBerranger/Glouton-Front) API
 
 ## Tech Highlights
 
-- [GitHub CI/CD](https://github.com/ThomasBerranger/Glouton-Back/blob/main/.github/workflows/symfony.yml)
+- [GitHub CI/CD](https://github.com/ThomasBerranger/Glouton-API/blob/main/.github/workflows/symfony.yml)
 
-Mise en place d'une intégration et d'un déploiement continue via les actions GitHub.
+Mise en place d'une intégration et d'un déploiement continu via les actions GitHub.
 
-- [Authentification via Token](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/Security/AccessTokenHandler.php)
+- [Authentification via Token](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Security/AccessTokenHandler.php)
 
 Intégration d'un système d'authentification via le AccessTokenHandler de Symfony et une gestion des Tokens.
 
-- [Doctrine Discriminator](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/Entity/Product/Product.php)
+- [Doctrine Discriminator](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Entity/Product/Product.php)
 
-Implémentation d'un heritage entre l'entité mère Product et les entitées filles ScannedProduct et CustomProduct.
+Implémentation d'un héritage entre l'entité mère Product et les entités filles ScannedProduct et CustomProduct.
 
-- [Tests automatisés](https://github.com/ThomasBerranger/Glouton-Back/tree/main/tests)
+- [Tests automatisés](https://github.com/ThomasBerranger/Glouton-API/tree/main/tests) et [DataFixtures](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/DataFixtures/RecipeFixtures.php)
 
-Concéption de tests unitaires et fonctionnels avec PHPUnit.
+Conception de tests unitaires et fonctionnels avec PHPUnit.
+Création de fixtures ordonnées et liées via références pour les tests et utilisation du package Faker.
 
-- [Permissions utilisateurs](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/Security/ProductVoter.php)
+- [Permissions utilisateurs](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Security/Voter/ProductVoter.php)
 
 Attribution de rôles aux utilisateurs et vérification des droits via des Voters.
 
-- [Groupes de serialization et validation](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/Controller/ProductController.php)
+- [Groupes de serialisation et validation](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Controller/ProductController.php)
 
-Utilisation des groupes de serialization et validation sur les propriétés des modèles.
+Utilisation des groupes de serialisation et validation sur les propriétés des modèles.
 
-- [Mise en place de relations](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/Entity/Recipe.php)
+- [Mise en place de relations](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Entity/Recipe.php)
 
-Liaisons des entités via les types OneToOne, ManyToOne et ManyToMany avec la persistence configurée et la suppression d'éléments orphelins. 
+Liaisons des entités via les types OneToOne, ManyToOne et ManyToMany avec la persistence configurée et la suppression d'éléments orphelins.
 
-- [Création de Fixtures](https://github.com/ThomasBerranger/Glouton-Back/blob/main/src/DataFixtures/RecipeFixtures.php)
+- Prochainement
 
-Création de fixtures ordonnées et liées via références pour les tests.
-
-- Mise en place de Listeners
-
-ex: ... sur la création et l'update de chaque entité concernée ?
-
-- Utilisation de Messenger
-
-ex: ... gestion de mail en asynchrone - envoie de mail ?
+Mise en place de Listeners & Utilisation de Messenger
 
 ## Tech Stack
 
@@ -74,7 +67,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 </details>
 
 <details>
-<summary>Création du repository GitHub</summary>
+<summary>Configuration du repository GitHub</summary>
 
 - [x] Premier commit du projet
 - [x] Rédaction d’une première doc
@@ -84,7 +77,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 </details>
 
 <details>
-<summary>Création du modèle User</summary>
+<summary>User</summary>
 
 - [x] Création du modèle User
 - [x] Implémentation de l’authentification
@@ -92,7 +85,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 </details>
 
 <details>
-<summary>Création du modèle Product</summary>
+<summary>Product</summary>
 
 - [x] Création du modèle Product parent
 - [x] Création des modèles enfant
@@ -107,15 +100,23 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 <summary>Rédaction des premiers tests unitaires et fonctionnels</summary>
 
 - [x] Rédaction des tests d'authentification
+- [x] Rédaction de Fixtures liées par référence
 - [x] Rédaction des tests d'accès sur les endpoints de Product
 - [x] Rédaction des tests de serialization sur Product
 - [x] Rédaction des tests de validation sur Product
 
 </details>
 
-- [ ] Création du modèle Recipe
-- [ ] Création des endpoints
-- [ ] Création des tests
+<details>
+<summary>Recipe</summary>
+
+- [x] Création du modèle Recipe
+- [x] Création des endpoints
+- [x] Rédaction des tests
+
+</details>
+
+- [x] Déploiement du projet sur Heroku
 
 ## API Reference
 
@@ -171,7 +172,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 {
   "name": "Product name",
   "description": "Product description",
-  "image": "http://product-image-url",
+  "image": "https://product-image-url",
   "finishedAt": "01/01/2025 15:16:17",
   "addedToListAt": "02/01/2025",
   "barcode": "123",
@@ -212,7 +213,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 {
   "name": "Product name",
   "description": "Product description",
-  "image": "http://product-image-url",
+  "image": "https://product-image-url",
   "finished_at": "2024-10-15 15:16:17",
   "added_to_list_at": "2024-10-14 15:16:17",
   "expirationDates": [
@@ -246,7 +247,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 
 | Parameter | Type     | Required | Description         |
 |:----------|:---------|----------|:--------------------|
-| `id`      | `string` | true     | Id of item to fetch |
+| `id`      | `string` | **true** | Id of item to fetch |
 
 #### Update Scanned Product
 
@@ -258,7 +259,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 {
   "name": "New product name",
   "description": "New product description",
-  "image": "http://new-product-image-url",
+  "image": "https://new-product-image-url",
   "finishedAt": "01/01/2025 15:16:17",
   "addedToListAt": "02/01/2025",
   "barcode": "123",
@@ -292,7 +293,7 @@ ex: ... gestion de mail en asynchrone - envoie de mail ?
 {
   "name": "New product name",
   "description": "New product description",
-  "image": "http://new-product-image-url",
+  "image": "https://new-product-image-url",
   "finished_at": "2024-10-15 15:16:17",
   "added_to_list_at": "2024-10-14 15:16:17",
   "expirationDates": [
