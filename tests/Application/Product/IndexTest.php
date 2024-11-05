@@ -23,7 +23,7 @@ class IndexTest extends BaseTest
     }
 
     /** @throws ExceptionInterface */
-    public function testProductIndex(): void
+    public function testProductIndexShowProductsOrderedByClosestExpirationDate(): void
     {
         $firstProduct = new CustomProduct();
         $firstProduct
@@ -32,8 +32,8 @@ class IndexTest extends BaseTest
             ->setDescription('First product description')
             ->setImage('http://first-product-image-url')
             ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-01-2025')))
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-01-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-02-2025')))
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-02-2025')));
 
         $secondProduct = new ScannedProduct();
         $secondProduct
@@ -46,7 +46,8 @@ class IndexTest extends BaseTest
             ->setBarcode('123')
             ->setNutriscore('C')
             ->setEcoscore(2)
-            ->setNovagroup(4);
+            ->setNovagroup(4)
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-01-2025')));
 
         static::persistAndFlush($firstProduct, $secondProduct);
 
@@ -54,6 +55,19 @@ class IndexTest extends BaseTest
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertJsonContains([
+            [
+                'name' => $secondProduct->getName(),
+                'description' => $secondProduct->getDescription(),
+                'image' => $secondProduct->getImage(),
+                'finishedAt' => $secondProduct->getFinishedAt()->format('Y-m-d\TH:i:sP'),
+                'addedToListAt' => $secondProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
+                'nutriscore' => $secondProduct->getNutriscore(),
+                'ecoscore' => $secondProduct->getEcoscore(),
+                'novagroup' => $secondProduct->getNovagroup(),
+                'expirationDates' => $secondProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
+                    return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
+                })->toArray(),
+            ],
             [
                 'name' => $firstProduct->getName(),
                 'description' => $firstProduct->getDescription(),
@@ -64,16 +78,22 @@ class IndexTest extends BaseTest
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
             ],
-            [
-                'name' => $secondProduct->getName(),
-                'description' => $secondProduct->getDescription(),
-                'image' => $secondProduct->getImage(),
-                'finishedAt' => $secondProduct->getFinishedAt()->format('Y-m-d\TH:i:sP'),
-                'addedToListAt' => $secondProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
-                'nutriscore' => $secondProduct->getNutriscore(),
-                'ecoscore' => $secondProduct->getEcoscore(),
-                'novagroup' => $secondProduct->getNovagroup(),
-            ],
         ]);
+    }
+
+    /** @throws ExceptionInterface */
+    public function testProductIndexDoNotShowProductsWithoutExpirationDate(): void
+    {
+        $firstProduct = new CustomProduct();
+        $firstProduct
+            ->setOwner($this->getLoggedUser())
+            ->setName('First product name');
+
+        static::persistAndFlush($firstProduct);
+
+        $this->client->request('GET', '/products');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertJsonContains([]);
     }
 }

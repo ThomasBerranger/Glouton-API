@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\Product;
 use App\Entity\Product\ScannedProduct;
+use App\Repository\ProductRepository;
+use App\Utils\ValidatorTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -17,8 +20,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class ProductController extends BaseController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
+    use ValidatorTrait;
+
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ProductRepository $productRepository,
+    ) {
     }
 
     #[Route('/scanned-products', name: 'scanned.products.create', methods: ['post'], format: 'json')]
@@ -53,9 +60,11 @@ final class ProductController extends BaseController
 
     #[Route('/products', name: 'products.index', methods: ['get'], format: 'json')]
     #[IsGranted('ROLE_USER')]
-    public function index(): JsonResponse
-    {
-        $products = $this->getCurrentUser()->getProducts();
+    public function index(
+        #[MapQueryParameter] int $limit = 10,
+        #[MapQueryParameter] int $offset = 0,
+    ): JsonResponse {
+        $products = $this->productRepository->findByOwnerOrderedByClosestExpirationDate($this->getCurrentUser(), $limit, $offset);
 
         return $this->json($products, Response::HTTP_OK, context: ['groups' => 'show_product']);
     }
@@ -76,7 +85,9 @@ final class ProductController extends BaseController
             AbstractNormalizer::GROUPS => 'edit_product',
         ]);
 
-        // todo: validation des constraints
+        if ($errors = $this->validate($product)) {
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $this->entityManager->flush();
 
@@ -92,7 +103,9 @@ final class ProductController extends BaseController
             AbstractNormalizer::GROUPS => 'edit_product',
         ]);
 
-        // todo: validation des constraints
+        if ($errors = $this->validate($product)) {
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $this->entityManager->flush();
 
