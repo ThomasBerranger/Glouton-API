@@ -43,7 +43,7 @@ class CreateTest extends BaseTest
 
         unset($payload['barcode']);
 
-        $this->assertJsonContains($payload);
+        $this->assertJsonEquals($payload);
     }
 
     /** @throws ExceptionInterface */
@@ -63,7 +63,7 @@ class CreateTest extends BaseTest
         $this->client->request('POST', '/custom-products', ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
-        $this->assertJsonContains($payload);
+        $this->assertJsonEquals($payload);
     }
 
     /** @throws ExceptionInterface

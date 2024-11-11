@@ -31,4 +31,16 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findByOwnerWithAndOrderedByShoppingList(User $user): mixed
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.owner = :userId')
+            ->setParameter('userId', $user->getId(), 'uuid')
+            ->andWhere('p.addedToListAt is not null')
+            ->orderBy('p.addedToListAt')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

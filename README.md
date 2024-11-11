@@ -117,6 +117,7 @@ Mise en place de Listeners & Utilisation de Messenger
 </details>
 
 - [x] Déploiement du projet sur Heroku
+- [x] Création d'un endpoint pour obtenir la liste de course
 
 ## API Reference
 
