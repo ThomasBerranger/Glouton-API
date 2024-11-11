@@ -69,6 +69,15 @@ final class ProductController extends BaseController
         return $this->json($products, Response::HTTP_OK, context: ['groups' => 'show_product']);
     }
 
+    #[Route('/products/shopping-list', name: 'products.shopping-list', methods: ['get'], format: 'json')]
+    #[IsGranted('ROLE_USER')]
+    public function shoppingList(): JsonResponse
+    {
+        $products = $this->productRepository->findByOwnerWithAndOrderedByShoppingList($this->getCurrentUser());
+
+        return $this->json($products, Response::HTTP_OK, context: ['groups' => 'show_product']);
+    }
+
     #[Route('/products/{id}', name: 'products.show', methods: ['get'], format: 'json')]
     #[IsGranted('view', 'product')]
     public function show(Product $product): JsonResponse

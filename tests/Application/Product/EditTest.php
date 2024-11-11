@@ -21,7 +21,9 @@ class EditTest extends BaseTest
         $this->login($this->client, User::USER);
     }
 
-    /** @throws ExceptionInterface */
+    /** @throws ExceptionInterface
+     * @throws \JsonException
+     */
     public function testScannedProductShow(): void
     {
         $product = new ScannedProduct();
@@ -57,10 +59,12 @@ class EditTest extends BaseTest
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $this->assertJsonContains($payload);
+        $this->assertJsonEquals($payload);
     }
 
-    /** @throws ExceptionInterface */
+    /** @throws ExceptionInterface
+     * @throws \JsonException
+     */
     public function testCustomProductEdit(): void
     {
         $product = new CustomProduct();
@@ -80,12 +84,13 @@ class EditTest extends BaseTest
             'image' => 'https://new-product-image-url',
             'finishedAt' => '2025-01-01T00:00:00+00:00',
             'addedToListAt' => '2025-01-02T00:00:00+00:00',
+            'expirationDates' => [],
         ];
 
         $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $this->assertJsonContains($payload);
+        $this->assertJsonEquals($payload);
     }
 }

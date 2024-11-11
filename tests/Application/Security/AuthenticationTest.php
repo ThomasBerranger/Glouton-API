@@ -34,7 +34,7 @@ class AuthenticationTest extends BaseTest
         $this->client->request('POST', '/login', ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertJsonContains(['token' => (string) $this->getUser(User::USER)->getToken()]);
+        $this->assertJsonEquals(['token' => (string) $this->getUser(User::USER)->getToken()]);
     }
 
     /**

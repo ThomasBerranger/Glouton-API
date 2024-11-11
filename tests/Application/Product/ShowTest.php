@@ -43,7 +43,7 @@ class ShowTest extends BaseTest
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $this->assertJsonContains([
+        $this->assertJsonEquals([
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'https://product-image-url',
@@ -52,6 +52,7 @@ class ShowTest extends BaseTest
             'nutriscore' => 'A',
             'ecoscore' => 1,
             'novagroup' => 4,
+            'expirationDates' => [],
         ]);
     }
 
@@ -73,12 +74,13 @@ class ShowTest extends BaseTest
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $this->assertJsonContains([
+        $this->assertJsonEquals([
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'https://product-image-url',
             'finishedAt' => '2024-10-10T15:16:00+00:00',
             'addedToListAt' => '2024-10-10T15:16:00+00:00',
+            'expirationDates' => [],
         ]);
     }
 }
