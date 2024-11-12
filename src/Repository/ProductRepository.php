@@ -28,19 +28,24 @@ class ProductRepository extends ServiceEntityRepository
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
-    public function findByOwnerWithAndOrderedByShoppingList(User $user): mixed
+    public function findByOwnerWithAndOrderedByShoppingList(User $user, ?bool $count = false): mixed
     {
-        return $this->createQueryBuilder('p')
+        $qb = $this->createQueryBuilder('p')
             ->where('p.owner = :userId')
             ->setParameter('userId', $user->getId(), 'uuid')
             ->andWhere('p.addedToListAt is not null')
-            ->orderBy('p.addedToListAt')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->orderBy('p.addedToListAt');
+
+        if ($count) {
+            return $qb
+                ->select('COUNT(p.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }
