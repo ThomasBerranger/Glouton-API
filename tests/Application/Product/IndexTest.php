@@ -204,5 +204,13 @@ class IndexTest extends BaseTest
                 })->toArray(),
             ],
         ]);
+
+        $this->client = static::createClient();
+        $this->login($this->client, User::USER);
+
+        $this->client->request('GET', '/products/shopping-list?count=true');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertJsonEquals(2);
     }
 }
