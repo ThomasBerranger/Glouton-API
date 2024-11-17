@@ -5,7 +5,6 @@ namespace App\Entity\Product;
 use App\Entity\ExpirationDate;
 use App\Entity\User;
 use App\Repository\ProductRepository;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -51,11 +50,11 @@ class Product
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
-    private ?DateTimeInterface $finishedAt = null;
+    private ?\DateTimeInterface $finishedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
-    private ?DateTimeInterface $addedToListAt = null;
+    private ?\DateTimeInterface $addedToListAt = null;
 
     /**
      * @var Collection<int, ExpirationDate>
@@ -122,24 +121,24 @@ class Product
         return $this;
     }
 
-    public function getFinishedAt(): ?DateTimeInterface
+    public function getFinishedAt(): ?\DateTimeInterface
     {
         return $this->finishedAt;
     }
 
-    public function setFinishedAt(?DateTimeInterface $finishedAt): static
+    public function setFinishedAt(?\DateTimeInterface $finishedAt): static
     {
         $this->finishedAt = $finishedAt;
 
         return $this;
     }
 
-    public function getAddedToListAt(): ?DateTimeInterface
+    public function getAddedToListAt(): ?\DateTimeInterface
     {
         return $this->addedToListAt;
     }
 
-    public function setAddedToListAt(?DateTimeInterface $addedToListAt): static
+    public function setAddedToListAt(?\DateTimeInterface $addedToListAt): static
     {
         $this->addedToListAt = $addedToListAt;
 
