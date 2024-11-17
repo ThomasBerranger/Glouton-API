@@ -7,6 +7,7 @@ use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
 use App\Tests\User;
+use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
@@ -30,8 +31,8 @@ class ShowTest extends BaseTest
             ->setOwner($this->getLoggedUser())
             ->setDescription('Product description')
             ->setImage('https://product-image-url')
-            ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'))
+            ->setFinishedAt(new DateTime('2024-10-10 15:16:00'))
+            ->setAddedToListAt(new DateTime('2024-10-10 15:16:00'))
             ->setBarcode('123')
             ->setNutriscore('A')
             ->setEcoscore(1)
@@ -44,6 +45,7 @@ class ShowTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $this->assertJsonEquals([
+            'id' => $product->getId(),
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'https://product-image-url',
@@ -65,8 +67,8 @@ class ShowTest extends BaseTest
             ->setOwner($this->getLoggedUser())
             ->setDescription('Product description')
             ->setImage('https://product-image-url')
-            ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'));
+            ->setFinishedAt(new DateTime('2024-10-10 15:16:00'))
+            ->setAddedToListAt(new DateTime('2024-10-10 15:16:00'));
 
         static::persistAndFlush($product);
 
@@ -75,6 +77,7 @@ class ShowTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $this->assertJsonEquals([
+            'id' => $product->getId(),
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'https://product-image-url',

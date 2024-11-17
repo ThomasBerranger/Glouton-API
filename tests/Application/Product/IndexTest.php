@@ -8,6 +8,8 @@ use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
 use App\Tests\User;
+use DateTime;
+use JsonException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -24,7 +26,7 @@ class IndexTest extends BaseTest
     }
 
     /**
-     * @throws TransportExceptionInterface|\JsonException
+     * @throws TransportExceptionInterface|JsonException
      */
     public function testProductIndexShowProductsOrderedByClosestExpirationDate(): void
     {
@@ -34,9 +36,9 @@ class IndexTest extends BaseTest
             ->setName('First product name')
             ->setDescription('First product description')
             ->setImage('http://first-product-image-url')
-            ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-02-2025')))
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-02-2025')));
+            ->setFinishedAt(new DateTime('2024-10-10 15:16:00'))
+            ->addExpirationDate((new ExpirationDate())->setDate(new DateTime('01-02-2025')))
+            ->addExpirationDate((new ExpirationDate())->setDate(new DateTime('02-02-2025')));
 
         $secondProduct = new ScannedProduct();
         $secondProduct
@@ -44,13 +46,13 @@ class IndexTest extends BaseTest
             ->setName('Second product name')
             ->setDescription('Second product description')
             ->setImage('http://second-product-image-url')
-            ->setFinishedAt(new \DateTime('2024-11-01 10:30:00'))
-            ->setAddedToListAt(new \DateTime('2024-11-01 15:00:00'))
+            ->setFinishedAt(new DateTime('2024-11-01 10:30:00'))
+            ->setAddedToListAt(new DateTime('2024-11-01 15:00:00'))
             ->setBarcode('123')
             ->setNutriscore('C')
             ->setEcoscore(2)
             ->setNovagroup(4)
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-01-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new DateTime('02-01-2025')));
 
         static::persistAndFlush($firstProduct, $secondProduct);
 
@@ -59,6 +61,7 @@ class IndexTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertJsonEquals([
             [
+                'id' => $secondProduct->getId(),
                 'name' => $secondProduct->getName(),
                 'description' => $secondProduct->getDescription(),
                 'image' => $secondProduct->getImage(),
@@ -72,6 +75,7 @@ class IndexTest extends BaseTest
                 })->toArray(),
             ],
             [
+                'id' => $firstProduct->getId(),
                 'name' => $firstProduct->getName(),
                 'description' => $firstProduct->getDescription(),
                 'image' => $firstProduct->getImage(),
@@ -86,7 +90,7 @@ class IndexTest extends BaseTest
 
     /**
      * @throws ExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function testProductIndexDoNotShowProductsWithoutExpirationDate(): void
     {
@@ -114,20 +118,20 @@ class IndexTest extends BaseTest
         $firstProduct
             ->setOwner($this->getLoggedUser())
             ->setName('First product name')
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-02-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new DateTime('01-02-2025')));
 
         $secondProduct = new ScannedProduct();
         $secondProduct
             ->setOwner($this->getLoggedUser())
             ->setName('Second product name')
             ->setBarcode('123')
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-01-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new DateTime('02-01-2025')));
 
         $thirdProduct = new CustomProduct();
         $thirdProduct
             ->setOwner($this->getLoggedUser())
             ->setName('Third product name')
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('03-01-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new DateTime('03-01-2025')));
 
         static::persistAndFlush($firstProduct, $secondProduct, $thirdProduct);
 
@@ -152,7 +156,7 @@ class IndexTest extends BaseTest
 
     /**
      * @throws TransportExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function testProductShoppingList(): void
     {
@@ -160,14 +164,14 @@ class IndexTest extends BaseTest
         $firstProduct
             ->setOwner($this->getLoggedUser())
             ->setName('First product name')
-            ->setAddedToListAt(new \DateTime('2025-01-02'));
+            ->setAddedToListAt(new DateTime('2025-01-02'));
 
         $secondProduct = new ScannedProduct();
         $secondProduct
             ->setOwner($this->getLoggedUser())
             ->setName('Second product name')
             ->setBarcode('123')
-            ->setAddedToListAt(new \DateTime('2025-01-01'));
+            ->setAddedToListAt(new DateTime('2025-01-01'));
 
         $thirdProduct = new CustomProduct();
         $thirdProduct
@@ -181,6 +185,7 @@ class IndexTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertJsonEquals([
             [
+                'id' => $secondProduct->getId(),
                 'name' => $secondProduct->getName(),
                 'description' => $secondProduct->getDescription(),
                 'image' => $secondProduct->getImage(),
@@ -194,6 +199,7 @@ class IndexTest extends BaseTest
                 })->toArray(),
             ],
             [
+                'id' => $firstProduct->getId(),
                 'name' => $firstProduct->getName(),
                 'description' => $firstProduct->getDescription(),
                 'image' => $firstProduct->getImage(),

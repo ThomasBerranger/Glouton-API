@@ -7,6 +7,8 @@ use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
 use App\Tests\User;
+use DateTime;
+use JsonException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
@@ -22,7 +24,7 @@ class EditTest extends BaseTest
     }
 
     /** @throws ExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function testScannedProductShow(): void
     {
@@ -32,8 +34,8 @@ class EditTest extends BaseTest
             ->setOwner($this->getLoggedUser())
             ->setDescription('Product description')
             ->setImage('https://product-image-url')
-            ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'))
+            ->setFinishedAt(new DateTime('2024-10-10 15:16:00'))
+            ->setAddedToListAt(new DateTime('2024-10-10 15:16:00'))
             ->setBarcode('123')
             ->setNutriscore('A')
             ->setEcoscore(1)
@@ -59,11 +61,13 @@ class EditTest extends BaseTest
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
+        $payload['id'] = $product->getId();
+
         $this->assertJsonEquals($payload);
     }
 
     /** @throws ExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function testCustomProductEdit(): void
     {
@@ -73,8 +77,8 @@ class EditTest extends BaseTest
             ->setOwner($this->getLoggedUser())
             ->setDescription('Product description')
             ->setImage('https://product-image-url')
-            ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'));
+            ->setFinishedAt(new DateTime('2024-10-10 15:16:00'))
+            ->setAddedToListAt(new DateTime('2024-10-10 15:16:00'));
 
         static::persistAndFlush($product);
 
@@ -90,6 +94,8 @@ class EditTest extends BaseTest
         $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $payload['id'] = $product->getId();
 
         $this->assertJsonEquals($payload);
     }
