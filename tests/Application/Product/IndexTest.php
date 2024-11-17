@@ -59,6 +59,7 @@ class IndexTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertJsonEquals([
             [
+                'id' => $secondProduct->getId(),
                 'name' => $secondProduct->getName(),
                 'description' => $secondProduct->getDescription(),
                 'image' => $secondProduct->getImage(),
@@ -72,6 +73,7 @@ class IndexTest extends BaseTest
                 })->toArray(),
             ],
             [
+                'id' => $firstProduct->getId(),
                 'name' => $firstProduct->getName(),
                 'description' => $firstProduct->getDescription(),
                 'image' => $firstProduct->getImage(),
@@ -181,6 +183,7 @@ class IndexTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertJsonEquals([
             [
+                'id' => $secondProduct->getId(),
                 'name' => $secondProduct->getName(),
                 'description' => $secondProduct->getDescription(),
                 'image' => $secondProduct->getImage(),
@@ -194,6 +197,7 @@ class IndexTest extends BaseTest
                 })->toArray(),
             ],
             [
+                'id' => $firstProduct->getId(),
                 'name' => $firstProduct->getName(),
                 'description' => $firstProduct->getDescription(),
                 'image' => $firstProduct->getImage(),

@@ -44,6 +44,7 @@ class ShowTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $this->assertJsonEquals([
+            'id' => $product->getId(),
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'https://product-image-url',
@@ -75,6 +76,7 @@ class ShowTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $this->assertJsonEquals([
+            'id' => $product->getId(),
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'https://product-image-url',

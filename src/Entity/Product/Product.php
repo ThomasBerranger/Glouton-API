@@ -27,6 +27,7 @@ class Product
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['show_product', 'show_recipe'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]

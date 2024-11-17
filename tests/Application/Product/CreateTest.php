@@ -19,7 +19,9 @@ class CreateTest extends BaseTest
         $this->login($this->client, User::USER);
     }
 
-    /** @throws ExceptionInterface */
+    /** @throws ExceptionInterface
+     * @throws \JsonException
+     */
     public function testScannedProductCreateSuccess(): void
     {
         $payload = [
@@ -37,16 +39,19 @@ class CreateTest extends BaseTest
             ],
         ];
 
-        $this->client->request('POST', '/scanned-products', ['json' => $payload]);
+        $response = $this->client->request('POST', '/scanned-products', ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
+        $payload['id'] = json_decode($response->getContent(), true)['id'];
         unset($payload['barcode']);
 
         $this->assertJsonEquals($payload);
     }
 
-    /** @throws ExceptionInterface */
+    /** @throws ExceptionInterface
+     * @throws \JsonException
+     */
     public function testCustomProductCreateSuccess(): void
     {
         $payload = [
@@ -60,7 +65,9 @@ class CreateTest extends BaseTest
             ],
         ];
 
-        $this->client->request('POST', '/custom-products', ['json' => $payload]);
+        $response = $this->client->request('POST', '/custom-products', ['json' => $payload]);
+
+        $payload['id'] = json_decode($response->getContent(), true)['id'];
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
         $this->assertJsonEquals($payload);

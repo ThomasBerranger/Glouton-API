@@ -59,6 +59,8 @@ class EditTest extends BaseTest
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
+        $payload['id'] = $product->getId();
+
         $this->assertJsonEquals($payload);
     }
 
@@ -90,6 +92,8 @@ class EditTest extends BaseTest
         $this->client->request('PATCH', '/custom-products/'.$product->getId(), ['json' => $payload]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $payload['id'] = $product->getId();
 
         $this->assertJsonEquals($payload);
     }
