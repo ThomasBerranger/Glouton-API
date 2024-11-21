@@ -184,7 +184,7 @@ class Product
         }
 
         $dates = $this->expirationDates
-            ->map(fn(ExpirationDate $date) => $date->getDate());
+            ->map(fn (ExpirationDate $date) => $date->getDate());
 
         return min($dates->toArray());
     }
