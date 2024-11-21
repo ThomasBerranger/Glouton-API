@@ -20,11 +20,12 @@ class ProductRepository extends ServiceEntityRepository
     public function findByOwnerOrderedByClosestExpirationDate(User $user, int $limit, int $offset): mixed
     {
         return $this->createQueryBuilder('p')
+            ->select('p.name', 'MIN(ed.date) as date')
             ->innerJoin('p.expirationDates', 'ed')
             ->where('p.owner = :userId')
             ->setParameter('userId', $user->getId(), 'uuid')
-            ->groupBy('p.id')
-            ->orderBy('min(ed.date)')
+            ->groupBy('p.id, p.name')
+            ->orderBy('date')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->getQuery()
