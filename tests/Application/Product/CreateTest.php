@@ -5,6 +5,7 @@ namespace App\Tests\Application\Product;
 use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Tests\BaseTest;
 use App\Tests\User;
+use JsonException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
@@ -20,7 +21,7 @@ class CreateTest extends BaseTest
     }
 
     /** @throws ExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function testScannedProductCreateSuccess(): void
     {
@@ -44,13 +45,15 @@ class CreateTest extends BaseTest
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
         $payload['id'] = json_decode($response->getContent(), true)['id'];
+        $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
+
         unset($payload['barcode']);
 
         $this->assertJsonEquals($payload);
     }
 
     /** @throws ExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function testCustomProductCreateSuccess(): void
     {
@@ -68,6 +71,7 @@ class CreateTest extends BaseTest
         $response = $this->client->request('POST', '/custom-products', ['json' => $payload]);
 
         $payload['id'] = json_decode($response->getContent(), true)['id'];
+        $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
         $this->assertJsonEquals($payload);
