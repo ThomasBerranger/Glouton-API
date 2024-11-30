@@ -18,15 +18,18 @@ class ScannedProduct extends Product
 
     #[ORM\Column(length: 1, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
+    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'])]
     private ?string $nutriscore = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Assert\Choice(choices: [1, 2, 3, 4])]
     #[Groups(['show_product', 'edit_product'])]
     private ?int $novagroup = null;
 
     #[ORM\Column(length: 1, nullable: true)]
+    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'])]
     #[Groups(['show_product', 'edit_product'])]
-    private ?int $ecoscore = null;
+    private ?string $ecoscore = null;
 
     public function getBarcode(): string
     {
@@ -64,12 +67,12 @@ class ScannedProduct extends Product
         return $this;
     }
 
-    public function getEcoscore(): ?int
+    public function getEcoscore(): ?string
     {
         return $this->ecoscore;
     }
 
-    public function setEcoscore(?int $ecoscore): static
+    public function setEcoscore(?string $ecoscore): static
     {
         $this->ecoscore = $ecoscore;
 

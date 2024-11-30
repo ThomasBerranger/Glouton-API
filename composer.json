@@ -81,6 +81,7 @@
     "cs-fixer": "php-cs-fixer fix",
     "stan": "vendor/bin/phpstan analyse src/ --level=max",
     "test": [
+      "php bin/console d:m:m --env=test --no-interaction",
       "php bin/console doctrine:fixtures:load --env=test --no-interaction",
       "php bin/phpunit"
     ],

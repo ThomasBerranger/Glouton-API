@@ -35,9 +35,9 @@ class EditTest extends BaseTest
             ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
             ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'))
             ->setBarcode('123')
-            ->setNutriscore('A')
-            ->setEcoscore(1)
-            ->setNovagroup(4);
+            ->setNutriscore('a')
+            ->setNovagroup(4)
+            ->setEcoscore('b');
 
         static::persistAndFlush($product);
 
@@ -47,9 +47,9 @@ class EditTest extends BaseTest
             'image' => 'https://new-product-image-url',
             'finishedAt' => '2025-01-01T00:00:00+00:00',
             'addedToListAt' => '2025-01-02T00:00:00+00:00',
-            'nutriscore' => 'B',
-            'ecoscore' => 3,
-            'novagroup' => 2,
+            'nutriscore' => 'b',
+            'novagroup' => 3,
+            'ecoscore' => 'e',
             'expirationDates' => [
                 ['date' => '2025-01-02T00:00:00+00:00'],
             ],

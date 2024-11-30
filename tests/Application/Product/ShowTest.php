@@ -33,9 +33,9 @@ class ShowTest extends BaseTest
             ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
             ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'))
             ->setBarcode('123')
-            ->setNutriscore('A')
-            ->setEcoscore(1)
-            ->setNovagroup(4);
+            ->setNutriscore('a')
+            ->setNovagroup(4)
+            ->setEcoscore('c');
 
         static::persistAndFlush($product);
 
@@ -50,9 +50,9 @@ class ShowTest extends BaseTest
             'image' => 'https://product-image-url',
             'finishedAt' => '2024-10-10T15:16:00+00:00',
             'addedToListAt' => '2024-10-10T15:16:00+00:00',
-            'nutriscore' => 'A',
-            'ecoscore' => 1,
+            'nutriscore' => 'a',
             'novagroup' => 4,
+            'ecoscore' => 'c',
             'expirationDates' => [],
             'closestExpirationDate' => null,
         ]);
