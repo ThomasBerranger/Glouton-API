@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-use Symfony\Component\Validator\Constraints\GroupSequence;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -18,9 +17,11 @@ trait ValidatorTrait
     }
 
     /**
+     * @param string|string[]|null $groups
+     *
      * @return array<string, string>
      */
-    public function validate(object $object, string|GroupSequence|array|null $groups = null): array
+    public function validate(object $object, string|array|null $groups = null): array
     {
         $errors = $this->validator->validate($object, groups: $groups);
 

@@ -2,7 +2,6 @@
 
 namespace App\Tests\Unit\Validation\Recipe;
 
-use App\Entity\Product\CustomProduct;
 use App\Entity\Recipe;
 use App\Tests\BaseTest;
 use App\Tests\Unit\Validation\ValidationGroups;
