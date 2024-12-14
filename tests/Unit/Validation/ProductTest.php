@@ -15,10 +15,13 @@ class ProductTest extends BaseTest
         $validator = $this->getContainer()->get(ValidatorInterface::class);
 
         $scannedProduct = new ScannedProduct();
+        $scannedProduct->setNutriscore('z')
+            ->setNovagroup(5)
+            ->setEcoscore('z');
 
         $errors = $validator->validate($scannedProduct, groups: ['create']);
 
-        $this->assertSame(['barcode', 'name'], array_map(function (ConstraintViolation $violation) {
+        $this->assertSame(['barcode', 'nutriscore', 'novagroup', 'ecoscore', 'name'], array_map(function (ConstraintViolation $violation) {
             return $violation->getPropertyPath();
         }, iterator_to_array($errors)));
     }

@@ -32,8 +32,8 @@ class Product
 
     #[ORM\Column(length: 255)]
     #[Groups(['show_product', 'edit_product', 'show_recipe'])]
-    #[Assert\NotBlank(groups: ['create'])]
-    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank(groups: ['create', 'edit'])]
+    #[Assert\Length(max: 255, groups: ['create', 'edit'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]

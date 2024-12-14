@@ -12,23 +12,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ScannedProduct extends Product
 {
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(groups: ['create'])]
     #[Groups(['edit_product'])]
+    #[Assert\NotBlank(groups: ['create', 'edit'])]
+    #[Assert\Type(type: 'string', groups: ['create', 'edit'])]
     private string $barcode;
 
     #[ORM\Column(length: 1, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
-    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'])]
+    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'], groups: ['create', 'edit'])]
     private ?string $nutriscore = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Assert\Choice(choices: [1, 2, 3, 4])]
     #[Groups(['show_product', 'edit_product'])]
+    #[Assert\Choice(choices: [1, 2, 3, 4], groups: ['create', 'edit'])]
     private ?int $novagroup = null;
 
     #[ORM\Column(length: 1, nullable: true)]
-    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'])]
     #[Groups(['show_product', 'edit_product'])]
+    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'], groups: ['create', 'edit'])]
     private ?string $ecoscore = null;
 
     public function getBarcode(): string

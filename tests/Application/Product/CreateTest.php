@@ -129,6 +129,4 @@ class CreateTest extends BaseTest
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-
-    // todo : ajouter un test de valeurs sur les scores
 }

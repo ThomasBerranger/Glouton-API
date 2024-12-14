@@ -28,7 +28,8 @@ class Recipe
 
     #[ORM\Column(length: 255)]
     #[Groups(['show_recipe', 'edit_recipe'])]
-    #[Assert\NotBlank]
+    #[Assert\Length(max: 255, groups: ['create', 'edit'])]
+    #[Assert\NotBlank(groups: ['create', 'edit'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
