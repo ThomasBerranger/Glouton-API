@@ -95,7 +95,7 @@ final class ProductController extends BaseController
             AbstractNormalizer::GROUPS => 'edit_product',
         ]);
 
-        if ($errors = $this->validate($product)) {
+        if ($errors = $this->validate($product, ['edit'])) {
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -113,7 +113,7 @@ final class ProductController extends BaseController
             AbstractNormalizer::GROUPS => 'edit_product',
         ]);
 
-        if ($errors = $this->validate($product)) {
+        if ($errors = $this->validate($product, ['edit'])) {
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 

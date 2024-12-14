@@ -31,9 +31,9 @@ class CreateTest extends BaseTest
             'finishedAt' => '2024-10-15T15:16:17+00:00',
             'addedToListAt' => '2024-10-14T15:16:17+00:00',
             'barcode' => '123',
-            'nutriscore' => 'A',
+            'nutriscore' => 'a',
             'novagroup' => 2,
-            'ecoscore' => 3,
+            'ecoscore' => 'e',
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
             ],

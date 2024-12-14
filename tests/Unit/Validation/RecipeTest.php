@@ -15,7 +15,7 @@ class RecipeTest extends BaseTest
 
         $recipe = new Recipe();
 
-        $errors = $validator->validate($recipe);
+        $errors = $validator->validate($recipe, groups: ['create']);
 
         $this->assertSame(['name'], array_map(function (ConstraintViolation $violation) {
             return $violation->getPropertyPath();

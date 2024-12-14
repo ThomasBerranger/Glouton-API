@@ -96,7 +96,8 @@ class ProductAccessTest extends BaseTest
         $product = new ScannedProduct();
         $product
             ->setOwner($this->getUser(User::USER))
-            ->setName('Product name');
+            ->setName('Product name')
+            ->setBarcode('123');
 
         static::persistAndFlush($product);
 
