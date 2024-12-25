@@ -51,7 +51,8 @@ class CreateTest extends BaseTest
         $this->assertJsonEquals($payload);
     }
 
-    /** @throws ExceptionInterface
+    /**
+     * @throws ExceptionInterface
      * @throws \JsonException
      */
     public function testCustomProductCreateSuccess(): void

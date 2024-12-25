@@ -35,8 +35,6 @@ final class ProductController extends BaseController
         validationGroups: ['create'],
     )] ScannedProduct $product): JsonResponse
     {
-        $product->setOwner($this->getCurrentUser());
-
         $this->entityManager->persist($product);
         $this->entityManager->flush();
 
@@ -50,8 +48,6 @@ final class ProductController extends BaseController
         validationGroups: ['create'],
     )] CustomProduct $product): JsonResponse
     {
-        $product->setOwner($this->getCurrentUser());
-
         $this->entityManager->persist($product);
         $this->entityManager->flush();
 

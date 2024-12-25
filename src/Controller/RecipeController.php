@@ -31,8 +31,6 @@ class RecipeController extends BaseController
         validationGroups: ['create'],
     )] Recipe $recipe): JsonResponse
     {
-        $recipe->setOwner($this->getCurrentUser());
-
         $this->entityManager->persist($recipe);
         $this->entityManager->flush();
 
