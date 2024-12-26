@@ -29,13 +29,17 @@ Attribution de rôles aux utilisateurs et vérification des droits via des Voter
 
 Utilisation des groupes de serialisation et validation sur les propriétés des modèles.
 
-- [Mise en place de relations](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Entity/Recipe.php)
+- [Relations](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Entity/Recipe.php)
 
-Liaisons des entités via les types OneToOne, ManyToOne et ManyToMany avec la persistence configurée et la suppression d'éléments orphelins.
+Liaisons des entités via les types OneToOne, ManyToOne et ManyToMany avec la persistence de données configurée et la suppression d'éléments orphelins.
+
+- [Listeners](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/EventListener/ProductListener.php)
+
+Mise en place de Listeners Doctrine sur la création d'objets
 
 - Prochainement
 
-Mise en place de Listeners & Utilisation de Messenger
+Utilisation de Messenger pour l'envoi de mail
 
 ## Tech Stack
 
@@ -113,20 +117,25 @@ Mise en place de Listeners & Utilisation de Messenger
 - [x] Création du modèle Recipe
 - [x] Création des endpoints
 - [x] Rédaction des tests
+- [x] Création d'un endpoint pour obtenir la liste de course
 
 </details>
 
-- [x] Déploiement du projet sur Heroku
-- [x] Création d'un endpoint pour obtenir la liste de course
+<details>
+<summary>Deploiement</summary>
 
-- [ ] Listener sur l'ajout de produit pour y lier le current user
+- [x] Déploiement du projet sur Heroku
+
+</details>
+
+- [x] Listener sur l'ajout de produit pour y lier le current user
 
 ## API Reference
 
 #### Register
 
 ```
-  POST /login
+  POST /register
 ```
 
 | Parameter  | Type     | Required | Description   |
@@ -141,30 +150,6 @@ Mise en place de Listeners & Utilisation de Messenger
 }
 ```
 
-#### Login
-
-```
-  POST /register
-```
-
-| Parameter  | Type     | Required | Description   |
-|:-----------|:---------|----------|:--------------|
-| `username` | `string` | **true** | Your email    |
-| `password` | `string` | **true** | Your password |
-
-```json
-{
-  "username": "user@gmail.com",
-  "password": "your_password"
-}
-```
-
-#### Logout
-
-```
-  POST /logout
-```
-
 #### Create Scanned Product
 
 ```
@@ -174,14 +159,14 @@ Mise en place de Listeners & Utilisation de Messenger
 ```json
 {
   "name": "Product name",
+  "barcode": "123",
+  "nutriscore": "a",
+  "novagroup": 2,
+  "ecoscore": "b",
   "description": "Product description",
   "image": "https://product-image-url",
   "finishedAt": "01/01/2025 15:16:17",
   "addedToListAt": "02/01/2025",
-  "barcode": "123",
-  "nutriscore": "A",
-  "novagroup": 2,
-  "ecoscore": 3,
   "expirationDates": [
     {
       "date": "01/01/2025"
@@ -196,15 +181,15 @@ Mise en place de Listeners & Utilisation de Messenger
 | Parameter          | Required | Type     | Description                       |
 |:-------------------|----------|----------|:----------------------------------|
 | `name`             | **true** | string   | Product name                      |
+| `barcode`          | **true** | string   | Product barcode scanned           |
+| `nutriscore`       | false    | string   | Product nutriscore                |
+| `novagroup`        | false    | integer  | Product NOVA group                |
+| `ecoscore`         | false    | string   | Product ecoscore                  |
 | `description`      | false    | string   | Product description               |
 | `image`            | false    | string   | Url to product online image       |
 | `finished_at`      | false    | datetime | Product consumption date          |
 | `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `barcode`          | **true** | string   | Product barcode scanned           |
-| `nutriscore`       | false    | string   | Product nutriscore                |
-| `novagroup`        | false    | integer  | Product novagroup                 |
-| `ecoscore`         | false    | integer  | Product ecoscore                  |
-| `expirationDates`  | false    | array    | Product expiration dates          |
+| `expirationDates`  | false    | array    | Product related expiration dates  |
 
 #### Create Custom Product
 
@@ -234,7 +219,7 @@ Mise en place de Listeners & Utilisation de Messenger
 | `image`            | false    | string   | Url to product online image       |
 | `finished_at`      | false    | datetime | Product consumption date          |
 | `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `expirationDates`  | false    | array    | Product expiration dates          |
+| `expirationDates`  | false    | array    | Product related expiration dates  |
 
 #### Show Product list
 
@@ -275,16 +260,16 @@ Mise en place de Listeners & Utilisation de Messenger
 
 | Parameter          | Required | Type     | Description                       |
 |:-------------------|----------|----------|:----------------------------------|
-| `name`             | false    | string   | Product name                      |
+| `name`             | **true** | string   | Product name                      |
+| `barcode`          | **true** | string   | Product barcode scanned           |
+| `nutriscore`       | false    | string   | Product nutriscore                |
+| `novagroup`        | false    | integer  | Product NOVA group                |
+| `ecoscore`         | false    | string   | Product ecoscore                  |
 | `description`      | false    | string   | Product description               |
 | `image`            | false    | string   | Url to product online image       |
 | `finished_at`      | false    | datetime | Product consumption date          |
 | `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `barcode`          | false    | string   | Product barcode scanned           |
-| `nutriscore`       | false    | string   | Product nutriscore                |
-| `novagroup`        | false    | integer  | Product novagroup                 |
-| `ecoscore`         | false    | integer  | Product ecoscore                  |
-| `expirationDates`  | false    | array    | Product expiration dates          |
+| `expirationDates`  | false    | array    | Product related expiration dates  |
 
 #### Update Custom Product
 
@@ -309,12 +294,12 @@ Mise en place de Listeners & Utilisation de Messenger
 
 | Parameter          | Required | Type     | Description                       |
 |:-------------------|----------|----------|:----------------------------------|
-| `name`             | false    | string   | Product name                      |
+| `name`             | **true** | string   | Product name                      |
 | `description`      | false    | string   | Product description               |
 | `image`            | false    | string   | Url to product online image       |
 | `finished_at`      | false    | datetime | Product consumption date          |
 | `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `expirationDates`  | false    | array    | Product expiration dates          |
+| `expirationDates`  | false    | array    | Product related expiration dates  |
 
 #### Delete Product
 
