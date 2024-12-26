@@ -7,10 +7,19 @@ use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Tests\User as UserEnum;
+use Doctrine\ORM\EntityManagerInterface;
 
 abstract class BaseTest extends ApiTestCase
 {
     private ?User $user = null;
+    protected ?EntityManagerInterface $entityManager = null;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->entityManager = self::getContainer()->get('doctrine')->getManager();
+    }
 
     protected function getUser(UserEnum $userEnum): User
     {
@@ -44,5 +53,12 @@ abstract class BaseTest extends ApiTestCase
         }
 
         $entityManager->flush();
+    }
+
+    protected function assertDatabaseHas(string $class, string $attribute, mixed $value): void
+    {
+        $result = $this->entityManager->getRepository($class)->findOneBy([$attribute => $value]);
+
+        $this->assertNotNull($result, 'Failed asserting that the entity exists.');
     }
 }
