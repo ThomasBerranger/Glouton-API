@@ -19,17 +19,17 @@ class ScannedProduct extends Product
 
     #[ORM\Column(length: 1, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
-    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'], groups: ['create', 'edit'])]
+    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e', null], groups: ['create', 'edit'])]
     private ?string $nutriscore = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
-    #[Assert\Choice(choices: [1, 2, 3, 4], groups: ['create', 'edit'])]
+    #[Assert\Choice(choices: [1, 2, 3, 4, null], groups: ['create', 'edit'])]
     private ?int $novagroup = null;
 
     #[ORM\Column(length: 1, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
-    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e'], groups: ['create', 'edit'])]
+    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e', null], groups: ['create', 'edit'])]
     private ?string $ecoscore = null;
 
     public function getBarcode(): string
