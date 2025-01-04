@@ -54,6 +54,7 @@ class ShowTest extends BaseTest
             'novagroup' => 4,
             'ecoscore' => 'c',
             'expirationDates' => [],
+            'scanned' => true,
             'closestExpirationDate' => null,
         ]);
     }
@@ -84,6 +85,7 @@ class ShowTest extends BaseTest
             'finishedAt' => '2024-10-10T15:16:00+00:00',
             'addedToListAt' => '2024-10-10T15:16:00+00:00',
             'expirationDates' => [],
+            'scanned' => false,
             'closestExpirationDate' => null,
         ]);
     }

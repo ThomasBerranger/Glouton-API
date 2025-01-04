@@ -120,7 +120,7 @@ final class ProductController extends BaseController
 
     #[Route('/products/{id}', name: 'products.delete', methods: ['delete'], format: 'json')]
     #[IsGranted('edit', 'product')]
-    public function delete(CustomProduct $product): JsonResponse
+    public function delete(Product $product): JsonResponse
     {
         $this->entityManager->remove($product);
         $this->entityManager->flush();

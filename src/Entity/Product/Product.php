@@ -68,6 +68,12 @@ class Product
         $this->expirationDates = new ArrayCollection();
     }
 
+    #[Groups(['show_product'])]
+    public function isScanned(): bool
+    {
+        return property_exists($this, 'barcode');
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;

@@ -19,7 +19,7 @@ class ProductTest extends BaseTest
 
         $normalizedScannedProduct = $normalizer->normalize($scannedProduct, context: ['groups' => ['show_product']]);
 
-        $this->assertSame(['nutriscore', 'novagroup', 'ecoscore', 'id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'closestExpirationDate'], array_keys($normalizedScannedProduct));
+        $this->assertSame(['nutriscore', 'novagroup', 'ecoscore', 'id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'scanned', 'closestExpirationDate'], array_keys($normalizedScannedProduct));
         $this->assertSame(['date'], array_keys($normalizedScannedProduct['expirationDates'][0]));
 
         $normalizedScannedProduct = $normalizer->normalize($scannedProduct, context: ['groups' => ['edit_product']]);
@@ -37,7 +37,7 @@ class ProductTest extends BaseTest
 
         $normalizedCustomProduct = $normalizer->normalize($customProduct, context: ['groups' => ['show_product']]);
 
-        $this->assertSame(['id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'closestExpirationDate'], array_keys($normalizedCustomProduct));
+        $this->assertSame(['id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'scanned', 'closestExpirationDate'], array_keys($normalizedCustomProduct));
         $this->assertSame(['date'], array_keys($normalizedCustomProduct['expirationDates'][0]));
 
         $normalizedScannedProduct = $normalizer->normalize($customProduct, context: ['groups' => ['edit_product']]);
