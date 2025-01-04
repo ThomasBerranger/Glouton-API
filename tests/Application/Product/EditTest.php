@@ -61,6 +61,7 @@ class EditTest extends BaseTest
 
         $payload['id'] = $product->getId();
         $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
+        $payload['scanned'] = true;
 
         $this->assertJsonEquals($payload);
     }
@@ -96,6 +97,7 @@ class EditTest extends BaseTest
 
         $payload['id'] = $product->getId();
         $payload['closestExpirationDate'] = null;
+        $payload['scanned'] = false;
 
         $this->assertJsonEquals($payload);
     }

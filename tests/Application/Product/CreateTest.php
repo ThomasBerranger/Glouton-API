@@ -45,6 +45,7 @@ class CreateTest extends BaseTest
 
         $payload['id'] = json_decode($response->getContent(), true)['id'];
         $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
+        $payload['scanned'] = true;
 
         unset($payload['barcode']);
 
@@ -72,6 +73,7 @@ class CreateTest extends BaseTest
 
         $payload['id'] = json_decode($response->getContent(), true)['id'];
         $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
+        $payload['scanned'] = false;
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
         $this->assertJsonEquals($payload);

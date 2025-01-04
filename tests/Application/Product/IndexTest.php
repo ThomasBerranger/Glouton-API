@@ -71,6 +71,7 @@ class IndexTest extends BaseTest
                 'expirationDates' => $secondProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
+                'scanned' => $secondProduct->isScanned(),
                 'closestExpirationDate' => $secondProduct->getClosestExpirationDate()->format('Y-m-d\TH:i:sP'),
             ],
             [
@@ -83,6 +84,7 @@ class IndexTest extends BaseTest
                 'expirationDates' => $firstProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
+                'scanned' => $firstProduct->isScanned(),
                 'closestExpirationDate' => $firstProduct->getClosestExpirationDate()->format('Y-m-d\TH:i:sP'),
             ],
         ]);
@@ -197,6 +199,7 @@ class IndexTest extends BaseTest
                 'expirationDates' => $secondProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
+                'scanned' => $secondProduct->isScanned(),
                 'closestExpirationDate' => null,
             ],
             [
@@ -209,6 +212,7 @@ class IndexTest extends BaseTest
                 'expirationDates' => $firstProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
+                'scanned' => $firstProduct->isScanned(),
                 'closestExpirationDate' => null,
             ],
         ]);
