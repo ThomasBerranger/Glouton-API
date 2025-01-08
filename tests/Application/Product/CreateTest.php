@@ -47,8 +47,6 @@ class CreateTest extends BaseTest
         $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
         $payload['scanned'] = true;
 
-        unset($payload['barcode']);
-
         $this->assertJsonEquals($payload);
     }
 
