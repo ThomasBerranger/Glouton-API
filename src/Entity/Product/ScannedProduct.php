@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ScannedProduct extends Product
 {
     #[ORM\Column(length: 255)]
-    #[Groups(['edit_product'])]
+    #[Groups(['show_product', 'edit_product'])]
     #[Assert\NotBlank(groups: ['create', 'edit'])]
     #[Assert\Type(type: 'string', groups: ['create', 'edit'])]
     private string $barcode;

@@ -50,6 +50,7 @@ class ShowTest extends BaseTest
             'image' => 'https://product-image-url',
             'finishedAt' => '2024-10-10T15:16:00+00:00',
             'addedToListAt' => '2024-10-10T15:16:00+00:00',
+            'barcode' => '123',
             'nutriscore' => 'a',
             'novagroup' => 4,
             'ecoscore' => 'c',
