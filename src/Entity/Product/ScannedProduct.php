@@ -29,7 +29,7 @@ class ScannedProduct extends Product
 
     #[ORM\Column(length: 1, nullable: true)]
     #[Groups(['show_product', 'edit_product'])]
-    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e', null], groups: ['create', 'edit'])]
+    #[Assert\Choice(choices: ['a', 'b', 'c', 'd', 'e', 'f', null], groups: ['create', 'edit'])]
     private ?string $ecoscore = null;
 
     public function getBarcode(): string
