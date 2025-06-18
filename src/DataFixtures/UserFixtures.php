@@ -10,7 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class UserFixtures extends Fixture
 {
-    public const ADMIN__REFERENCE = 'admin';
+    public const ADMIN_REFERENCE = 'admin';
 
     public function __construct(private readonly PasswordHasherFactoryInterface $passwordHasherFactory)
     {
@@ -30,7 +30,7 @@ class UserFixtures extends Fixture
             $manager->persist($user);
 
             if ($user->getEmail() === UserEnum::ADMIN->getEmail()) {
-                $this->addReference(self::ADMIN__REFERENCE, $user);
+                $this->addReference(self::ADMIN_REFERENCE, $user);
             }
         }
 

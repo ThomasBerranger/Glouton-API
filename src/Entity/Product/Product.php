@@ -60,6 +60,7 @@ class Product
      * @var Collection<int, ExpirationDate>
      */
     #[ORM\OneToMany(targetEntity: ExpirationDate::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['date' => 'ASC'])]
     #[Groups(['show_product', 'edit_product'])]
     private Collection $expirationDates;
 
