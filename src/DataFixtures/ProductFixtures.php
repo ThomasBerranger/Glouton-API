@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Product\CustomProduct;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -19,8 +20,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         $product = new CustomProduct();
 
         $product
-            // @phpstan-ignore-next-line
-            ->setOwner($this->getReference(UserFixtures::ADMIN__REFERENCE))
+            ->setOwner($this->getReference(UserFixtures::ADMIN_REFERENCE, User::class))
             ->setName($faker->word())
             ->setImage($faker->imageUrl())
             ->setDescription($faker->text())

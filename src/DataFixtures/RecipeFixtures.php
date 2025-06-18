@@ -2,7 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Product\CustomProduct;
 use App\Entity\Recipe;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -17,16 +19,14 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
         $recipe = new Recipe();
 
         $recipe
-            // @phpstan-ignore-next-line
-            ->setOwner($this->getReference(UserFixtures::ADMIN__REFERENCE))
+            ->setOwner($this->getReference(UserFixtures::ADMIN_REFERENCE, User::class))
             ->setName($faker->word())
             ->setDescription($faker->text())
             ->setDuration($faker->dateTimeBetween(
                 (new \DateTime('2000-01-01 0:0'))->modify('+1 minute'),
                 (new \DateTime('2000-01-01 0:0'))->modify('+12 hours')
             ))
-            // @phpstan-ignore-next-line
-            ->addProduct($this->getReference(ProductFixtures::PRODUCT_REFERENCE));
+            ->addProduct($this->getReference(ProductFixtures::PRODUCT_REFERENCE, CustomProduct::class));
 
         $manager->persist($recipe);
         $manager->flush();

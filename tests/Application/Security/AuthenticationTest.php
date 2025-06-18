@@ -42,7 +42,7 @@ class AuthenticationTest extends BaseTest
      */
     public function testRegister(): void
     {
-        $this->client->request('POST', '/register');
+        $this->client->request('POST', '/register', ['json' => []]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
 
