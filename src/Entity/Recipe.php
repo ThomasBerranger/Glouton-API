@@ -44,7 +44,7 @@ class Recipe
      * @var Collection<int, Product>
      */
     #[ORM\ManyToMany(targetEntity: Product::class)]
-    #[Groups(['show_recipe'])]
+    #[Groups(['show_recipe', 'edit_recipe'])]
     private Collection $products;
 
     public function __construct()
