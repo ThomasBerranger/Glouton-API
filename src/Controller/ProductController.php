@@ -60,7 +60,7 @@ final class ProductController extends BaseController
     public function index(
         #[MapQueryParameter] int $limit = 10,
         #[MapQueryParameter] int $offset = 0,
-        #[MapQueryParameter] ProductOrder $order = ProductOrder::ALL,
+        #[MapQueryParameter] ProductOrder $order = ProductOrder::ALL_WITH_EXPIRATION_DATE,
     ): JsonResponse {
         $products = $this->productRepository->findByOwnerOrderedByClosestExpirationDate($this->getCurrentUser(), $limit, $offset, $order);
 

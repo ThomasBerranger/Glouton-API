@@ -25,7 +25,7 @@ class Token
 
     public function __construct()
     {
-        $this->expirationDate = new \DateTime('now + 1 month + 2 hours');
+        $this->expirationDate = new \DateTime('now + 1 year');
     }
 
     public function __toString(): string
