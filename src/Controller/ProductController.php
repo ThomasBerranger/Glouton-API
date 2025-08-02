@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\Product;
 use App\Entity\Product\ScannedProduct;
+use App\Enum\ProductOrder;
 use App\Repository\ProductRepository;
 use App\Utils\ValidatorTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,8 +60,9 @@ final class ProductController extends BaseController
     public function index(
         #[MapQueryParameter] int $limit = 10,
         #[MapQueryParameter] int $offset = 0,
+        #[MapQueryParameter] ProductOrder $order = ProductOrder::ALL,
     ): JsonResponse {
-        $products = $this->productRepository->findByOwnerOrderedByClosestExpirationDate($this->getCurrentUser(), $limit, $offset);
+        $products = $this->productRepository->findByOwnerOrderedByClosestExpirationDate($this->getCurrentUser(), $limit, $offset, $order);
 
         return $this->json($products, Response::HTTP_OK, context: ['groups' => 'show_product']);
     }
