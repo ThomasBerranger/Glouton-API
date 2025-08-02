@@ -24,9 +24,9 @@ class ProductRepository extends ServiceEntityRepository
             ->addSelect('MIN(ed.date) as HIDDEN closest_expiration_date');
 
         if (ProductOrder::ALL_WITH_EXPIRATION_DATE === $order) {
-            $query->leftJoin('p.expirationDates', 'ed');
-        } else {
             $query->innerJoin('p.expirationDates', 'ed');
+        } else {
+            $query->leftJoin('p.expirationDates', 'ed');
         }
 
         return $query->where('p.owner = :userId')
