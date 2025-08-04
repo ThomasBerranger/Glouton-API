@@ -73,6 +73,7 @@ class IndexTest extends BaseTest
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
                 'scanned' => $secondProduct->isScanned(),
+                'recipes' => [],
                 'closestExpirationDate' => $secondProduct->getClosestExpirationDate()->format('Y-m-d\TH:i:sP'),
             ],
             [
@@ -86,6 +87,7 @@ class IndexTest extends BaseTest
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
                 'scanned' => $firstProduct->isScanned(),
+                'recipes' => [],
                 'closestExpirationDate' => $firstProduct->getClosestExpirationDate()->format('Y-m-d\TH:i:sP'),
             ],
         ]);
@@ -202,6 +204,7 @@ class IndexTest extends BaseTest
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
                 'scanned' => $secondProduct->isScanned(),
+                'recipes' => [],
                 'closestExpirationDate' => null,
             ],
             [
@@ -215,6 +218,7 @@ class IndexTest extends BaseTest
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
                 'scanned' => $firstProduct->isScanned(),
+                'recipes' => [],
                 'closestExpirationDate' => null,
             ],
         ]);

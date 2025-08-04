@@ -46,6 +46,7 @@ class ShowTest extends BaseTest
         $this->assertJsonEquals([
             'id' => $product->getId(),
             'name' => 'Product name',
+            'recipes' => [],
             'description' => 'Product description',
             'image' => 'https://product-image-url',
             'finishedAt' => '2024-10-10T15:16:00+00:00',
@@ -81,6 +82,7 @@ class ShowTest extends BaseTest
         $this->assertJsonEquals([
             'id' => $product->getId(),
             'name' => 'Product name',
+            'recipes' => [],
             'description' => 'Product description',
             'image' => 'https://product-image-url',
             'finishedAt' => '2024-10-10T15:16:00+00:00',

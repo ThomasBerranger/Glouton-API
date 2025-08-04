@@ -37,6 +37,7 @@ class CreateTest extends BaseTest
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
             ],
+            'recipes' => [],
         ];
 
         $response = $this->client->request('POST', '/scanned-products', ['json' => $payload]);
@@ -62,6 +63,7 @@ class CreateTest extends BaseTest
             'image' => 'http://product-image-url',
             'finishedAt' => '2024-10-15T15:16:17+00:00',
             'addedToListAt' => '2024-10-14T15:16:17+00:00',
+            'recipes' => [],
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
             ],
