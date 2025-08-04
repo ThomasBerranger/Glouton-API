@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
@@ -20,7 +21,7 @@ class Recipe
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['show_recipe'])]
+    #[Groups(['show_recipe', 'show_product'])]
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
@@ -28,7 +29,7 @@ class Recipe
     private ?User $owner = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['show_recipe', 'edit_recipe'])]
+    #[Groups(['show_recipe', 'edit_recipe', 'show_product'])]
     #[Assert\Length(max: 255, groups: ['create', 'edit'])]
     #[Assert\NotBlank(groups: ['create', 'edit'])]
     private ?string $name = null;
@@ -38,13 +39,14 @@ class Recipe
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    #[Groups(['show_recipe', 'edit_recipe'])]
+    #[Groups(['show_recipe', 'edit_recipe', 'show_product'])]
     private ?\DateTimeInterface $duration = null;
 
     /**
      * @var Collection<int, Product>
      */
-    #[ORM\ManyToMany(targetEntity: Product::class)]
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'recipes')]
+    #[JoinTable(name: 'recipe_product')]
     #[Groups(['show_recipe', 'edit_recipe'])]
     private Collection $products;
 
