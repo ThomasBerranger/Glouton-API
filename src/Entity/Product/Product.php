@@ -3,6 +3,7 @@
 namespace App\Entity\Product;
 
 use App\Entity\ExpirationDate;
+use App\Entity\Recipe;
 use App\Entity\User;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -64,9 +65,17 @@ class Product
     #[Groups(['show_product', 'edit_product'])]
     private Collection $expirationDates;
 
+    /**
+     * @var Collection<int, Recipe>
+     */
+    #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'products')]
+    #[Groups(['show_product'])]
+    private Collection $recipes;
+
     public function __construct()
     {
         $this->expirationDates = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     #[Groups(['show_product'])]
@@ -177,6 +186,25 @@ class Product
             if ($expirationDate->getProduct() === $this) {
                 $expirationDate->setProduct(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function addRecipe(Recipe $recipe): static
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): static
+    {
+        if ($this->recipes->removeElement($recipe)) {
+            $recipe->removeProduct($this);
         }
 
         return $this;
