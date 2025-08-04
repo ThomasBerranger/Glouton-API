@@ -50,6 +50,7 @@ class EditTest extends BaseTest
             'nutriscore' => 'b',
             'novagroup' => 3,
             'ecoscore' => 'e',
+            'recipes' => [],
             'expirationDates' => [
                 ['date' => '2025-01-02T00:00:00+00:00'],
             ],
@@ -99,6 +100,7 @@ class EditTest extends BaseTest
         $payload['id'] = $product->getId();
         $payload['closestExpirationDate'] = null;
         $payload['scanned'] = false;
+        $payload['recipes'] = [];
 
         $this->assertJsonEquals($payload);
     }

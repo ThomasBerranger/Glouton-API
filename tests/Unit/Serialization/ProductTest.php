@@ -5,6 +5,7 @@ namespace App\Tests\Unit\Serialization;
 use App\Entity\ExpirationDate;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
+use App\Entity\Recipe;
 use App\Tests\BaseTest;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -16,10 +17,12 @@ class ProductTest extends BaseTest
 
         $scannedProduct = new ScannedProduct();
         $scannedProduct->addExpirationDate(new ExpirationDate());
+        $scannedProduct->addRecipe(new Recipe());
 
         $normalizedScannedProduct = $normalizer->normalize($scannedProduct, context: ['groups' => ['show_product']]);
 
-        $this->assertSame(['nutriscore', 'novagroup', 'ecoscore', 'id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'scanned', 'closestExpirationDate'], array_keys($normalizedScannedProduct));
+        $this->assertSame(['nutriscore', 'novagroup', 'ecoscore', 'id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'recipes', 'scanned', 'closestExpirationDate'], array_keys($normalizedScannedProduct));
+        $this->assertSame(['id', 'name', 'duration'], array_keys($normalizedScannedProduct['recipes'][0]));
         $this->assertSame(['date'], array_keys($normalizedScannedProduct['expirationDates'][0]));
 
         $normalizedScannedProduct = $normalizer->normalize($scannedProduct, context: ['groups' => ['edit_product']]);
@@ -34,10 +37,12 @@ class ProductTest extends BaseTest
 
         $customProduct = new CustomProduct();
         $customProduct->addExpirationDate(new ExpirationDate());
+        $customProduct->addRecipe(new Recipe());
 
         $normalizedCustomProduct = $normalizer->normalize($customProduct, context: ['groups' => ['show_product']]);
 
-        $this->assertSame(['id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'scanned', 'closestExpirationDate'], array_keys($normalizedCustomProduct));
+        $this->assertSame(['id', 'name', 'description', 'image', 'finishedAt', 'addedToListAt', 'expirationDates', 'recipes', 'scanned', 'closestExpirationDate'], array_keys($normalizedCustomProduct));
+        $this->assertSame(['id', 'name', 'duration'], array_keys($normalizedCustomProduct['recipes'][0]));
         $this->assertSame(['date'], array_keys($normalizedCustomProduct['expirationDates'][0]));
 
         $normalizedScannedProduct = $normalizer->normalize($customProduct, context: ['groups' => ['edit_product']]);
