@@ -21,7 +21,7 @@ class Recipe
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['show_recipe'])]
+    #[Groups(['show_recipe', 'show_product'])]
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
