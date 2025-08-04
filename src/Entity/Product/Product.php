@@ -191,6 +191,14 @@ class Product
         return $this;
     }
 
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
     public function addRecipe(Recipe $recipe): static
     {
         if (!$this->recipes->contains($recipe)) {
