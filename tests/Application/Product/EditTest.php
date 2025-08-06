@@ -16,6 +16,8 @@ class EditTest extends BaseTest
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->client = static::createClient();
 
         $this->login($this->client, User::USER);
@@ -51,6 +53,7 @@ class EditTest extends BaseTest
             'novagroup' => 3,
             'ecoscore' => 'e',
             'recipes' => [],
+            'category' => null,
             'expirationDates' => [
                 ['date' => '2025-01-02T00:00:00+00:00'],
             ],
@@ -90,6 +93,7 @@ class EditTest extends BaseTest
             'image' => 'https://new-product-image-url',
             'finishedAt' => '2025-01-01T00:00:00+00:00',
             'addedToListAt' => '2025-01-02T00:00:00+00:00',
+            'category' => null,
             'expirationDates' => [],
         ];
 

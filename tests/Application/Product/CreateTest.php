@@ -3,6 +3,7 @@
 namespace App\Tests\Application\Product;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Product\Category;
 use App\Tests\BaseTest;
 use App\Tests\User;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,8 @@ class CreateTest extends BaseTest
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->client = static::createClient();
 
         $this->login($this->client, User::USER);
@@ -24,12 +27,15 @@ class CreateTest extends BaseTest
      */
     public function testScannedProductCreateSuccess(): void
     {
+        $category = $this->entityManager->getRepository(Category::class)->findOneBy([]);
+
         $payload = [
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'http://product-image-url',
             'finishedAt' => '2024-10-15T15:16:17+00:00',
             'addedToListAt' => '2024-10-14T15:16:17+00:00',
+            'category' => $category->getId(),
             'barcode' => '123',
             'nutriscore' => 'a',
             'novagroup' => 2,
@@ -47,6 +53,7 @@ class CreateTest extends BaseTest
         $payload['id'] = json_decode($response->getContent(), true)['id'];
         $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
         $payload['scanned'] = true;
+        $payload['category'] = ['id' => $category->getId(), 'name' => $category->getName()];
 
         $this->assertJsonEquals($payload);
     }
@@ -57,12 +64,15 @@ class CreateTest extends BaseTest
      */
     public function testCustomProductCreateSuccess(): void
     {
+        $category = $this->entityManager->getRepository(Category::class)->findOneBy([]);
+
         $payload = [
             'name' => 'Product name',
             'description' => 'Product description',
             'image' => 'http://product-image-url',
             'finishedAt' => '2024-10-15T15:16:17+00:00',
             'addedToListAt' => '2024-10-14T15:16:17+00:00',
+            'category' => $category->getId(),
             'recipes' => [],
             'expirationDates' => [
                 ['date' => '2024-10-15T15:16:17+00:00'],
@@ -74,6 +84,7 @@ class CreateTest extends BaseTest
         $payload['id'] = json_decode($response->getContent(), true)['id'];
         $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
         $payload['scanned'] = false;
+        $payload['category'] = ['id' => $category->getId(), 'name' => $category->getName()];
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
         $this->assertJsonEquals($payload);

@@ -72,6 +72,10 @@ class Product
     #[Groups(['show_product'])]
     private Collection $recipes;
 
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[Groups(['show_product', 'edit_product'])]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->expirationDates = new ArrayCollection();
@@ -214,6 +218,18 @@ class Product
         if ($this->recipes->removeElement($recipe)) {
             $recipe->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
