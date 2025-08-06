@@ -19,7 +19,7 @@ class ExpirationDate
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'expiration_dates')]
+    #[ORM\ManyToOne(inversedBy: 'expirationDates')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 

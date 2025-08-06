@@ -66,6 +66,7 @@ class IndexTest extends BaseTest
                 'finishedAt' => $secondProduct->getFinishedAt()->format('Y-m-d\TH:i:sP'),
                 'addedToListAt' => $secondProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
                 'barcode' => $secondProduct->getBarcode(),
+                'category' => null,
                 'nutriscore' => $secondProduct->getNutriscore(),
                 'ecoscore' => $secondProduct->getEcoscore(),
                 'novagroup' => $secondProduct->getNovagroup(),
@@ -83,6 +84,7 @@ class IndexTest extends BaseTest
                 'image' => $firstProduct->getImage(),
                 'finishedAt' => $firstProduct->getFinishedAt()->format('Y-m-d\TH:i:sP'),
                 'addedToListAt' => $firstProduct->getAddedToListAt(),
+                'category' => null,
                 'expirationDates' => $firstProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
@@ -197,6 +199,7 @@ class IndexTest extends BaseTest
                 'addedToListAt' => $secondProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
                 'finishedAt' => $firstProduct->getFinishedAt(),
                 'barcode' => $secondProduct->getBarcode(),
+                'category' => null,
                 'nutriscore' => $secondProduct->getNutriscore(),
                 'ecoscore' => $secondProduct->getEcoscore(),
                 'novagroup' => $secondProduct->getNovagroup(),
@@ -213,6 +216,7 @@ class IndexTest extends BaseTest
                 'description' => $firstProduct->getDescription(),
                 'image' => $firstProduct->getImage(),
                 'addedToListAt' => $firstProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
+                'category' => null,
                 'finishedAt' => $firstProduct->getFinishedAt(),
                 'expirationDates' => $firstProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
