@@ -3,6 +3,7 @@
 namespace App\Tests\Application\Product;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Product\Category;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
@@ -28,6 +29,9 @@ class EditTest extends BaseTest
      */
     public function testScannedProductShow(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new ScannedProduct();
         $product
             ->setName('Product name')
@@ -39,7 +43,8 @@ class EditTest extends BaseTest
             ->setBarcode('123')
             ->setNutriscore('a')
             ->setNovagroup(4)
-            ->setEcoscore('b');
+            ->setEcoscore('b')
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 
@@ -53,7 +58,6 @@ class EditTest extends BaseTest
             'novagroup' => 3,
             'ecoscore' => 'e',
             'recipes' => [],
-            'category' => null,
             'expirationDates' => [
                 ['date' => '2025-01-02T00:00:00+00:00'],
             ],
@@ -67,6 +71,7 @@ class EditTest extends BaseTest
         $payload['closestExpirationDate'] = $payload['expirationDates'][0]['date'];
         $payload['barcode'] = '123';
         $payload['scanned'] = true;
+        $payload['category'] = ['id' => $category->getId(), 'name' => $category->getName()];
 
         $this->assertJsonEquals($payload);
     }
@@ -76,6 +81,9 @@ class EditTest extends BaseTest
      */
     public function testCustomProductEdit(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new CustomProduct();
         $product
             ->setName('Product name')
@@ -83,7 +91,8 @@ class EditTest extends BaseTest
             ->setDescription('Product description')
             ->setImage('https://product-image-url')
             ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'));
+            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'))
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 
@@ -93,7 +102,6 @@ class EditTest extends BaseTest
             'image' => 'https://new-product-image-url',
             'finishedAt' => '2025-01-01T00:00:00+00:00',
             'addedToListAt' => '2025-01-02T00:00:00+00:00',
-            'category' => null,
             'expirationDates' => [],
         ];
 
@@ -105,6 +113,7 @@ class EditTest extends BaseTest
         $payload['closestExpirationDate'] = null;
         $payload['scanned'] = false;
         $payload['recipes'] = [];
+        $payload['category'] = ['id' => $category->getId(), 'name' => $category->getName()];
 
         $this->assertJsonEquals($payload);
     }

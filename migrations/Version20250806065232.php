@@ -51,7 +51,8 @@ final class Version20250806065232 extends AbstractMigration
             (3, 'Céréales & Féculents'),
             (4, 'Viandes & Poissons'),
             (5, 'Produits Sucrés'),
-            (6, 'Boissons')
+            (6, 'Boissons'),
+            (7, 'Autre')
     SQL
         );
     }

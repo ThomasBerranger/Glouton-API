@@ -3,6 +3,7 @@
 namespace App\Tests\Application\EventListener;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Product\Category;
 use App\Entity\Product\Product;
 use App\Entity\User as UserEntity;
 use App\Tests\BaseTest;
@@ -27,7 +28,10 @@ class ProductTest extends BaseTest
      */
     public function testCurrentUserIsOwnerOnCreate(): void
     {
-        $this->client->request('POST', '/custom-products', ['json' => ['name' => 'name']]);
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $categoryId = $entityManager->getRepository(Category::class)->findOneBy([])->getId();
+
+        $this->client->request('POST', '/custom-products', ['json' => ['name' => 'name', 'category' => $categoryId]]);
 
         $this->entityManager->clear();
 

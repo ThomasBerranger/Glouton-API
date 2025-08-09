@@ -3,6 +3,7 @@
 namespace App\Tests\Application\Product;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Product\Category;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
@@ -24,6 +25,9 @@ class ShowTest extends BaseTest
     /** @throws ExceptionInterface */
     public function testScannedProductShow(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new ScannedProduct();
         $product
             ->setName('Product name')
@@ -35,7 +39,8 @@ class ShowTest extends BaseTest
             ->setBarcode('123')
             ->setNutriscore('a')
             ->setNovagroup(4)
-            ->setEcoscore('c');
+            ->setEcoscore('c')
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 
@@ -52,7 +57,7 @@ class ShowTest extends BaseTest
             'finishedAt' => '2024-10-10T15:16:00+00:00',
             'addedToListAt' => '2024-10-10T15:16:00+00:00',
             'barcode' => '123',
-            'category' => null,
+            'category' => ['id' => $category->getId(), 'name' => $category->getName()],
             'nutriscore' => 'a',
             'novagroup' => 4,
             'ecoscore' => 'c',
@@ -65,6 +70,9 @@ class ShowTest extends BaseTest
     /** @throws ExceptionInterface */
     public function testCustomProductShow(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new CustomProduct();
         $product
             ->setName('Product name')
@@ -72,7 +80,8 @@ class ShowTest extends BaseTest
             ->setDescription('Product description')
             ->setImage('https://product-image-url')
             ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
-            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'));
+            ->setAddedToListAt(new \DateTime('2024-10-10 15:16:00'))
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 
@@ -87,7 +96,7 @@ class ShowTest extends BaseTest
             'description' => 'Product description',
             'image' => 'https://product-image-url',
             'finishedAt' => '2024-10-10T15:16:00+00:00',
-            'category' => null,
+            'category' => ['id' => $category->getId(), 'name' => $category->getName()],
             'addedToListAt' => '2024-10-10T15:16:00+00:00',
             'expirationDates' => [],
             'scanned' => false,

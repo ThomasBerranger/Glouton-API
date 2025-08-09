@@ -3,6 +3,7 @@
 namespace App\Tests\Application\Product;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Product\Category;
 use App\Entity\Product\CustomProduct;
 use App\Tests\BaseTest;
 use App\Tests\User;
@@ -23,10 +24,14 @@ class DeleteTest extends BaseTest
     /** @throws ExceptionInterface */
     public function testProductDelete(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new CustomProduct();
         $product
             ->setOwner($this->getLoggedUser())
-            ->setName('Product name');
+            ->setName('Product name')
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 

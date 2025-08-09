@@ -3,6 +3,7 @@
 namespace App\Tests\Application\Security;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Product\Category;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
@@ -40,9 +41,12 @@ class ProductAccessTest extends BaseTest
 
     public function requestCreateIndexParamsProvider(): array
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $categoryId = $entityManager->getRepository(Category::class)->findOneBy([])->getId();
+
         return [
-            ['method' => 'POST', 'url' => '/scanned-products', 'options' => ['json' => ['name' => 'Product name', 'barcode' => '123']], 'expectedStatusCode' => Response::HTTP_CREATED],
-            ['method' => 'POST', 'url' => '/custom-products', 'options' => ['json' => ['name' => 'Product name']], 'expectedStatusCode' => Response::HTTP_CREATED],
+            ['method' => 'POST', 'url' => '/scanned-products', 'options' => ['json' => ['name' => 'Product name', 'barcode' => '123', 'category' => $categoryId]], 'expectedStatusCode' => Response::HTTP_CREATED],
+            ['method' => 'POST', 'url' => '/custom-products', 'options' => ['json' => ['name' => 'Product name', 'category' => $categoryId]], 'expectedStatusCode' => Response::HTTP_CREATED],
             ['method' => 'GET', 'url' => '/products', 'options' => [], 'expectedStatusCode' => Response::HTTP_OK],
         ];
     }
@@ -54,10 +58,14 @@ class ProductAccessTest extends BaseTest
      */
     public function testShowDeleteAccess(string $method, string $url, array $options, int $expectedStatusCode): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new CustomProduct();
         $product
             ->setOwner($this->getUser(User::USER))
-            ->setName('Product name');
+            ->setName('Product name')
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 
@@ -93,11 +101,15 @@ class ProductAccessTest extends BaseTest
      */
     public function testScannedProductEditAccess(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new ScannedProduct();
         $product
             ->setOwner($this->getUser(User::USER))
             ->setName('Product name')
-            ->setBarcode('123');
+            ->setBarcode('123')
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 
@@ -125,10 +137,14 @@ class ProductAccessTest extends BaseTest
      */
     public function testCustomProductEditAccess(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $product = new CustomProduct();
         $product
             ->setOwner($this->getUser(User::USER))
-            ->setName('Product name');
+            ->setName('Product name')
+            ->setCategory($category);
 
         static::persistAndFlush($product);
 

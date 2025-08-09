@@ -4,6 +4,7 @@ namespace App\Tests\Application\Product;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\ExpirationDate;
+use App\Entity\Product\Category;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Product\ScannedProduct;
 use App\Tests\BaseTest;
@@ -28,6 +29,9 @@ class IndexTest extends BaseTest
      */
     public function testProductIndexShowProductsOrderedByClosestExpirationDate(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $firstProduct = new CustomProduct();
         $firstProduct
             ->setOwner($this->getLoggedUser())
@@ -36,7 +40,8 @@ class IndexTest extends BaseTest
             ->setImage('http://first-product-image-url')
             ->setFinishedAt(new \DateTime('2024-10-10 15:16:00'))
             ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-02-2025')))
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-02-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-02-2025')))
+            ->setCategory($category);
 
         $secondProduct = new ScannedProduct();
         $secondProduct
@@ -50,7 +55,8 @@ class IndexTest extends BaseTest
             ->setNutriscore('C')
             ->setEcoscore(2)
             ->setNovagroup(4)
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-01-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-01-2025')))
+            ->setCategory($category);
 
         static::persistAndFlush($firstProduct, $secondProduct);
 
@@ -66,7 +72,7 @@ class IndexTest extends BaseTest
                 'finishedAt' => $secondProduct->getFinishedAt()->format('Y-m-d\TH:i:sP'),
                 'addedToListAt' => $secondProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
                 'barcode' => $secondProduct->getBarcode(),
-                'category' => null,
+                'category' => ['id' => $secondProduct->getCategory()->getId(), 'name' => $secondProduct->getCategory()->getName()],
                 'nutriscore' => $secondProduct->getNutriscore(),
                 'ecoscore' => $secondProduct->getEcoscore(),
                 'novagroup' => $secondProduct->getNovagroup(),
@@ -84,7 +90,7 @@ class IndexTest extends BaseTest
                 'image' => $firstProduct->getImage(),
                 'finishedAt' => $firstProduct->getFinishedAt()->format('Y-m-d\TH:i:sP'),
                 'addedToListAt' => $firstProduct->getAddedToListAt(),
-                'category' => null,
+                'category' => ['id' => $firstProduct->getCategory()->getId(), 'name' => $firstProduct->getCategory()->getName()],
                 'expirationDates' => $firstProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
                 })->toArray(),
@@ -101,10 +107,14 @@ class IndexTest extends BaseTest
      */
     public function testProductIndexDoNotShowProductsWithoutExpirationDate(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $firstProduct = new CustomProduct();
         $firstProduct
             ->setOwner($this->getLoggedUser())
-            ->setName('First product name');
+            ->setName('First product name')
+            ->setCategory($category);
 
         static::persistAndFlush($firstProduct);
 
@@ -121,24 +131,30 @@ class IndexTest extends BaseTest
      */
     public function testProductIndexWithLimitAndOrder(int $limit, int $offset, int $expectedCount): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $firstProduct = new CustomProduct();
         $firstProduct
             ->setOwner($this->getLoggedUser())
             ->setName('First product name')
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-02-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('01-02-2025')))
+            ->setCategory($category);
 
         $secondProduct = new ScannedProduct();
         $secondProduct
             ->setOwner($this->getLoggedUser())
             ->setName('Second product name')
             ->setBarcode('123')
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-01-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('02-01-2025')))
+            ->setCategory($category);
 
         $thirdProduct = new CustomProduct();
         $thirdProduct
             ->setOwner($this->getLoggedUser())
             ->setName('Third product name')
-            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('03-01-2025')));
+            ->addExpirationDate((new ExpirationDate())->setDate(new \DateTime('03-01-2025')))
+            ->setCategory($category);
 
         static::persistAndFlush($firstProduct, $secondProduct, $thirdProduct);
 
@@ -167,23 +183,29 @@ class IndexTest extends BaseTest
      */
     public function testProductShoppingList(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $firstProduct = new CustomProduct();
         $firstProduct
             ->setOwner($this->getLoggedUser())
             ->setName('First product name')
-            ->setAddedToListAt(new \DateTime('2025-01-02'));
+            ->setAddedToListAt(new \DateTime('2025-01-02'))
+            ->setCategory($category);
 
         $secondProduct = new ScannedProduct();
         $secondProduct
             ->setOwner($this->getLoggedUser())
             ->setName('Second product name')
             ->setBarcode('123')
-            ->setAddedToListAt(new \DateTime('2025-01-01'));
+            ->setAddedToListAt(new \DateTime('2025-01-01'))
+            ->setCategory($category);
 
         $thirdProduct = new CustomProduct();
         $thirdProduct
             ->setOwner($this->getLoggedUser())
-            ->setName('Third product name');
+            ->setName('Third product name')
+            ->setCategory($category);
 
         static::persistAndFlush($firstProduct, $secondProduct, $thirdProduct);
 
@@ -199,7 +221,7 @@ class IndexTest extends BaseTest
                 'addedToListAt' => $secondProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
                 'finishedAt' => $firstProduct->getFinishedAt(),
                 'barcode' => $secondProduct->getBarcode(),
-                'category' => null,
+                'category' => ['id' => $category->getId(), 'name' => $category->getName()],
                 'nutriscore' => $secondProduct->getNutriscore(),
                 'ecoscore' => $secondProduct->getEcoscore(),
                 'novagroup' => $secondProduct->getNovagroup(),
@@ -216,7 +238,7 @@ class IndexTest extends BaseTest
                 'description' => $firstProduct->getDescription(),
                 'image' => $firstProduct->getImage(),
                 'addedToListAt' => $firstProduct->getAddedToListAt()->format('Y-m-d\TH:i:sP'),
-                'category' => null,
+                'category' => ['id' => $category->getId(), 'name' => $category->getName()],
                 'finishedAt' => $firstProduct->getFinishedAt(),
                 'expirationDates' => $firstProduct->getExpirationDates()->map(function (ExpirationDate $expirationDate) {
                     return ['date' => $expirationDate->getDate()->format('Y-m-d\TH:i:sP')];
