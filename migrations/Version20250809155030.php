@@ -1,13 +1,14 @@
 <?php
 
 declare(strict_types=1);
+
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Merged Migration: Create category table, add relationship to product, and make category_id NOT NULL
+ * Merged Migration: Create category table, add relationship to product, and make category_id NOT NULL.
  */
 final class Version20250809135020 extends AbstractMigration
 {

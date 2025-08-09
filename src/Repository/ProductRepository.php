@@ -48,7 +48,8 @@ class ProductRepository extends ServiceEntityRepository
             ->where('p.owner = :userId')
             ->setParameter('userId', $user->getId(), 'uuid')
             ->andWhere('p.addedToListAt is not null')
-            ->orderBy('p.addedToListAt');
+            ->addOrderBy('p.category')
+            ->addOrderBy('p.addedToListAt');
 
         if ($count) {
             return $qb
