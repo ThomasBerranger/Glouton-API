@@ -74,6 +74,7 @@ class Product
 
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[Groups(['show_product', 'edit_product'])]
+    #[ORM\JoinColumn(nullable: false)]
     private Category $category;
 
     public function __construct()

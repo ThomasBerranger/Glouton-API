@@ -3,6 +3,7 @@
 namespace App\Tests\Application\Security;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Product\Category;
 use App\Entity\Product\CustomProduct;
 use App\Entity\Recipe;
 use App\Tests\BaseTest;
@@ -93,8 +94,11 @@ class RecipeAccessTest extends BaseTest
      */
     public function testRecipeToggleProductAccess(): void
     {
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $category = $entityManager->getRepository(Category::class)->findOneBy([]);
+
         $recipe = (new Recipe())->setName('Product name')->setOwner($this->getUser(User::USER));
-        $product = (new CustomProduct())->setName('Recipe name')->setOwner($this->getUser(User::USER));
+        $product = (new CustomProduct())->setName('Recipe name')->setOwner($this->getUser(User::USER))->setCategory($category);
 
         static::persistAndFlush($recipe, $product);
 

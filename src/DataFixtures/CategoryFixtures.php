@@ -9,6 +9,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class CategoryFixtures extends Fixture
 {
+    public const CATEGORY_REFERENCE = 'category';
+
     public function load(ObjectManager $manager): void
     {
         foreach (CategoryEnum::cases() as $categoryEnum) {
@@ -16,8 +18,13 @@ class CategoryFixtures extends Fixture
 
             $category->setName($categoryEnum->value);
 
+            if (CategoryEnum::OTHER === $categoryEnum) {
+                $this->addReference(self::CATEGORY_REFERENCE, $category);
+            }
+
             $manager->persist($category);
-            $manager->flush();
         }
+
+        $manager->flush();
     }
 }

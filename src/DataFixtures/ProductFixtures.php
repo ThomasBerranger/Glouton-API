@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Product\Category;
 use App\Entity\Product\CustomProduct;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -24,6 +25,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             ->setName($faker->word())
             ->setImage($faker->imageUrl())
             ->setDescription($faker->text())
+            ->setCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE, Category::class))
             ->setFinishedAt($faker->dateTimeBetween('now', '+1 month'))
             ->setAddedToListAt($faker->dateTimeBetween('now', '+1 month'));
 
@@ -37,6 +39,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
+            CategoryFixtures::class,
         ];
     }
 }
