@@ -74,7 +74,7 @@ class Product
 
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[Groups(['show_product', 'edit_product'])]
-    private ?Category $category = null;
+    private Category $category;
 
     public function __construct()
     {
@@ -227,7 +227,7 @@ class Product
         return $this->category;
     }
 
-    public function setCategory(?Category $category): static
+    public function setCategory(Category $category): static
     {
         $this->category = $category;
 
