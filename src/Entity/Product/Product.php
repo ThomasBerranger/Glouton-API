@@ -5,7 +5,7 @@ namespace App\Entity\Product;
 use App\Entity\ExpirationDate;
 use App\Entity\Recipe;
 use App\Entity\User;
-use App\Repository\ProductRepository;
+use App\Repository\Product\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

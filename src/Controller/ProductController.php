@@ -6,7 +6,9 @@ use App\Entity\Product\CustomProduct;
 use App\Entity\Product\Product;
 use App\Entity\Product\ScannedProduct;
 use App\Enum\ProductOrder;
-use App\Repository\ProductRepository;
+use App\Repository\Product\ProductRepository;
+use App\Repository\Product\ScannedProductRepository;
+use App\Security\Voter\ProductVoter;
 use App\Utils\ValidatorTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,6 +28,7 @@ final class ProductController extends BaseController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly ProductRepository $productRepository,
+        private readonly ScannedProductRepository $scannedProductRepository,
     ) {
     }
 
@@ -65,6 +68,18 @@ final class ProductController extends BaseController
         $products = $this->productRepository->findByOwnerOrderedByClosestExpirationDate($this->getCurrentUser(), $limit, $offset, $order);
 
         return $this->json($products, Response::HTTP_OK, context: ['groups' => 'show_product']);
+    }
+
+    #[Route('/scanned-products', name: 'scanned.products.index', methods: ['get'], format: 'json')]
+    #[IsGranted('ROLE_USER')]
+    public function scannedProductSearch(
+        #[MapQueryParameter] string $barcode,
+    ): JsonResponse {
+        $scannedProduct = $this->scannedProductRepository->findOneBy(['barcode' => $barcode]);
+
+        $this->denyAccessUnlessGranted(ProductVoter::VIEW, $scannedProduct);
+
+        return $this->json($scannedProduct, Response::HTTP_OK, context: ['groups' => 'show_product']);
     }
 
     #[Route('/products/shopping-list', name: 'products.shopping-list', methods: ['get'], format: 'json')]
