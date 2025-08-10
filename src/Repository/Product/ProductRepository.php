@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Product;
 
 use App\Entity\Product\Product;
 use App\Entity\User;
