@@ -131,4 +131,14 @@ class Recipe
 
         return $this;
     }
+
+    #[Groups(['show_recipe', 'edit_recipe'])]
+    public function getUnavailableProducts(): int
+    {
+        $unavailableProducts = $this->products->filter(function (Product $product) {
+            return $product->getExpirationDates()->isEmpty();
+        });
+
+        return count($unavailableProducts);
+    }
 }
