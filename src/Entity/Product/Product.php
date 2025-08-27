@@ -235,7 +235,7 @@ class Product
         return $this;
     }
 
-    #[Groups(['show_product'])]
+    #[Groups(['show_product', 'show_recipe'])]
     public function getClosestExpirationDate(): ?\DateTimeInterface
     {
         if ($this->expirationDates->isEmpty()) {

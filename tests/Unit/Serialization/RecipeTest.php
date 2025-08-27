@@ -19,6 +19,6 @@ class RecipeTest extends BaseTest
         $normalizedRecipe = $normalizer->normalize($recipe, context: ['groups' => ['show_recipe']]);
 
         $this->assertSame(['id', 'name', 'description', 'duration', 'products', 'unavailableProducts'], array_keys($normalizedRecipe));
-        $this->assertSame(['id', 'name'], array_keys($normalizedRecipe['products'][0]));
+        $this->assertSame(['id', 'name', 'closestExpirationDate'], array_keys($normalizedRecipe['products'][0]));
     }
 }
