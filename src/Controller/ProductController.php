@@ -61,11 +61,12 @@ final class ProductController extends BaseController
     #[Route('/products', name: 'products.index', methods: ['get'], format: 'json')]
     #[IsGranted('ROLE_USER')]
     public function index(
+        #[MapQueryParameter] ?string $search = null,
         #[MapQueryParameter] int $limit = 10,
         #[MapQueryParameter] int $offset = 0,
         #[MapQueryParameter] ProductOrder $order = ProductOrder::ALL_WITH_EXPIRATION_DATE,
     ): JsonResponse {
-        $products = $this->productRepository->findByOwnerOrderedByClosestExpirationDate($this->getCurrentUser(), $limit, $offset, $order);
+        $products = $this->productRepository->findByOwnerOrderedByClosestExpirationDate($this->getCurrentUser(), $search, $limit, $offset, $order);
 
         return $this->json($products, Response::HTTP_OK, context: ['groups' => 'show_product']);
     }
