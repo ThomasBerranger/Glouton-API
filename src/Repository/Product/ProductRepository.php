@@ -18,7 +18,7 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findByOwnerOrderedByClosestExpirationDate(User $user, int $limit, int $offset, ?ProductOrder $order = ProductOrder::ALL): mixed
+    public function findByOwnerOrderedByClosestExpirationDate(User $user, ?string $search, int $limit, int $offset, ?ProductOrder $order = ProductOrder::ALL): mixed
     {
         $query = $this->createQueryBuilder('p')
             ->addSelect('MIN(ed.date) as HIDDEN closest_expiration_date');
@@ -29,7 +29,12 @@ class ProductRepository extends ServiceEntityRepository
             $query->leftJoin('p.expirationDates', 'ed');
         }
 
-        return $query->where('p.owner = :userId')
+        if ($search) {
+            $query->andWhere('p.name LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        return $query->andWhere('p.owner = :userId')
             ->setParameter('userId', $user->getId(), 'uuid')
             ->groupBy('p.id')
             ->orderBy(
