@@ -1,312 +1,75 @@
-# Glouton
+<div align="center">
+  <a href="https://glouton-1.web.app">
+      <img src="https://github.com/ThomasBerranger/Glouton-Front/assets/15357887/0e3494c1-36f9-492d-be39-586d18905de7" alt="Glouton API logo" title="Glouton API" />
+  </a>
+</div>
+<br>
 
-[Glouton](https://github.com/ThomasBerranger/Glouton-Front) API
+### 🍏 Glouton - API Symfony 7.1
 
-## Tech Highlights
+API RESTful alimentant l'application [Glouton](https://github.com/ThomasBerranger/Glouton) pour réduire le gaspillage alimentaire en aidant les utilisateurs à mieux gérer leurs aliments du quotidien.
+
+Permet d'enregistrer les produits scannés, créer des recettes personnalisées, générer des listes de courses intelligentes et suivre les dates d'expiration pour éviter le gaspillage.
+
+### 🛠 Stack Technique 
+
+| Catégorie | Technologies |
+|-----------|--------------|
+| **Core Framework** | PHP 8.2+ (types stricts + attributs)<br>Symfony 7.1.* (framework bundle + components)<br>Doctrine ORM 3.2 (entités + migrations) |
+| **Persistance & BDD** | MySQL 8.0.33<br>Doctrine ORM 3.* (discriminator)<br>Doctrine Migrations Bundle 3.3 (schéma versioning)<br>Doctrine Fixtures + Faker (jeux données) |
+| **Sécurité & Auth** | Symfony Security Bundle 7.1 (JWT + Voters)<br>AccessTokenHandler custom (auth stateless) |
+| **Testing & Qualité** | PHPUnit 9.5 (tests unitaires + fonctionnels)<br>PHPStan 1.12 niveau max (analyse statique)<br>PHP CS Fixer 3.66 (PSR-12 + standards) |
+| **DevOps & Déploiement** | GitHub Actions (CI/CD pipeline)<br>Heroku (déploiement continu)<br>Symfony Runtime (optimisation prod) |
+| **API & Serialization** | Symfony Serializer 7.1 (groupes contextuels + normalizer custom)<br>Validator Component 7.1 (validation métier)<br> |
+
+### 🚀 Implémentations Techniques
+
 
 - [GitHub CI/CD](https://github.com/ThomasBerranger/Glouton-API/blob/main/.github/workflows/symfony.yml)
-
 Mise en place d'une intégration et d'un déploiement continu via les actions GitHub.
 
 - [Authentification via Token](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Security/AccessTokenHandler.php)
-
 Intégration d'un système d'authentification via le AccessTokenHandler de Symfony et une gestion des Tokens.
 
 - [Doctrine Discriminator](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Entity/Product/Product.php)
-
 Implémentation d'un héritage entre l'entité mère Product et les entités filles ScannedProduct et CustomProduct.
 
 - [Tests automatisés](https://github.com/ThomasBerranger/Glouton-API/tree/main/tests) et [DataFixtures](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/DataFixtures/RecipeFixtures.php)
-
 Conception de tests unitaires et fonctionnels avec PHPUnit.
 Création de fixtures ordonnées et liées via références pour les tests et utilisation du package Faker.
 
 - [Permissions utilisateurs](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Security/Voter/ProductVoter.php)
-
 Attribution de rôles aux utilisateurs et vérification des droits via des Voters.
 
 - [Groupes de serialisation et validation](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Controller/ProductController.php)
-
 Utilisation des groupes de serialisation et validation sur les propriétés des modèles.
 
-- [Relations](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Entity/Recipe.php)
+- [Normalizers custom](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Normalizer/CategoryNormalizer.php)
+Développement de normalizers spécialisés pour la dénormalisation des entités Category et des collections de Product.
 
+- [Relations](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Entity/Recipe.php)
 Liaisons des entités via les types OneToOne, ManyToOne et ManyToMany avec la persistence de données configurée et la suppression d'éléments orphelins.
 
 - [Listeners](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/EventListener/ProductListener.php)
+Mise en place de Listeners Doctrine sur la création d'objets.
 
-Mise en place de Listeners Doctrine sur la création d'objets
+- [DTOs et MapRequestPayload](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/DTO/RegistrationDTO.php)
+Utilisation de DTOs et de l'attribut MapRequestPayload avec contextes de sérialisation pour une validation structurée des données entrantes.
+
+- [Enum et MapQueryParameter](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Controller/ProductController.php)
+Implémentation d'enums typés et utilisation de MapQueryParameter pour les paramètres de requête avec validation automatique.
+
+- [Repository custom](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Repository/Product/ProductRepository.php)
+Développement de repositories spécialisés avec méthodes de recherche avancées incluant recherche, tri et pagination.
+
+- [Traits réutilisables](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Utils/ValidatorTrait.php)
+Création de traits pour mutualiser la logique de validation et autres fonctionnalités communes entre contrôleurs.
+
+- [Attributs PHP 8.2+](https://github.com/ThomasBerranger/Glouton-API/blob/main/src/Controller/SecurityController.php)
+Usage systématique des attributs modernes pour une configuration déclarative des routes, sécurité et mapping de données.
 
 - Prochainement
 
-Utilisation de Messenger pour l'envoi de mail
+Implémentation du cache Redis
 
-## Tech Stack
-
-**Programming Language:** PHP 8.2
-
-**Framework:** Symfony 7.1
-
-**Server:** PHP Built-in Server, Heroku
-
-**Database:** Mysql 8.0.33
-
-**Testing:** PHPUnit 9.5
-
-**Deployment Tools:** GitHub Actions
-
-**Code Quality Tools:** PHPStan, PHP CS Fixer
-
-## Roadmap
-
-<details>
-<summary>Création du projet</summary>
-
-- [x] Création du projet Symfony 7.1
-- [x] Déploiement sur GitHub
-- [x] Intégrer PHPUnit
-- [x] Intégrer PHPStan
-- [x] Intégrer PHP CS Fixer
-
-</details>
-
-<details>
-<summary>Configuration du repository GitHub</summary>
-
-- [x] Premier commit du projet
-- [x] Rédaction d’une première doc
-- [x] Rédaction de la roadmap
-- [x] Création d’une CI/CD GitHub
-
-</details>
-
-<details>
-<summary>User</summary>
-
-- [x] Création du modèle User
-- [x] Implémentation de l’authentification
-
-</details>
-
-<details>
-<summary>Product</summary>
-
-- [x] Création du modèle Product parent
-- [x] Création des modèles enfant
-- [x] Get endpoint
-- [x] Post endpoint
-- [x] Patch endpoint
-- [x] Delete endpoint
-
-</details>
-
-<details>
-<summary>Rédaction des premiers tests unitaires et fonctionnels</summary>
-
-- [x] Rédaction des tests d'authentification
-- [x] Rédaction de Fixtures liées par référence
-- [x] Rédaction des tests d'accès sur les endpoints de Product
-- [x] Rédaction des tests de serialization sur Product
-- [x] Rédaction des tests de validation sur Product
-
-</details>
-
-<details>
-<summary>Recipe</summary>
-
-- [x] Création du modèle Recipe
-- [x] Création des endpoints
-- [x] Rédaction des tests
-- [x] Création d'un endpoint pour obtenir la liste de course
-
-</details>
-
-<details>
-<summary>Deploiement</summary>
-
-- [x] Déploiement du projet sur Heroku
-
-</details>
-
-- [x] Listener sur l'ajout de produit pour y lier le current user
-
-## API Reference
-
-#### Register
-
-```
-  POST /register
-```
-
-| Parameter  | Type     | Required | Description   |
-|:-----------|:---------|----------|:--------------|
-| `email`    | `string` | **true** | Your email    |
-| `password` | `string` | **true** | Your password |
-
-```json
-{
-  "email": "user@gmail.com",
-  "password": "your_password"
-}
-```
-
-#### Create Scanned Product
-
-```
-  POST /scanned-products
-```
-
-```json
-{
-  "name": "Product name",
-  "barcode": "123",
-  "nutriscore": "a",
-  "novagroup": 2,
-  "ecoscore": "b",
-  "description": "Product description",
-  "image": "https://product-image-url",
-  "finishedAt": "01/01/2025 15:16:17",
-  "addedToListAt": "02/01/2025",
-  "expirationDates": [
-    {
-      "date": "01/01/2025"
-    },
-    {
-      "date": "01/01/2025"
-    }
-  ]
-}
-```
-
-| Parameter          | Required | Type     | Description                       |
-|:-------------------|----------|----------|:----------------------------------|
-| `name`             | **true** | string   | Product name                      |
-| `barcode`          | **true** | string   | Product barcode scanned           |
-| `nutriscore`       | false    | string   | Product nutriscore                |
-| `novagroup`        | false    | integer  | Product NOVA group                |
-| `ecoscore`         | false    | string   | Product ecoscore                  |
-| `description`      | false    | string   | Product description               |
-| `image`            | false    | string   | Url to product online image       |
-| `finished_at`      | false    | datetime | Product consumption date          |
-| `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `expirationDates`  | false    | array    | Product related expiration dates  |
-
-#### Create Custom Product
-
-```
-  POST /custom-products
-```
-
-```json
-{
-  "name": "Product name",
-  "description": "Product description",
-  "image": "https://product-image-url",
-  "finished_at": "2024-10-15 15:16:17",
-  "added_to_list_at": "2024-10-14 15:16:17",
-  "expirationDates": [
-    {
-      "date": "01/01/2025"
-    }
-  ]
-}
-```
-
-| Parameter          | Required | Type     | Description                       |
-|:-------------------|----------|----------|:----------------------------------|
-| `name`             | **true** | string   | Product name                      |
-| `description`      | false    | string   | Product description               |
-| `image`            | false    | string   | Url to product online image       |
-| `finished_at`      | false    | datetime | Product consumption date          |
-| `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `expirationDates`  | false    | array    | Product related expiration dates  |
-
-#### Show Product list
-
-```
-  GET /products
-```
-
-#### Show Product
-
-```
-  GET /products/${id}
-```
-
-| Parameter | Type     | Required | Description         |
-|:----------|:---------|----------|:--------------------|
-| `id`      | `string` | **true** | Id of item to fetch |
-
-#### Update Scanned Product
-
-```
-  PATCH /scanned-products
-```
-
-```json
-{
-  "name": "New product name",
-  "description": "New product description",
-  "image": "https://new-product-image-url",
-  "finishedAt": "01/01/2025 15:16:17",
-  "addedToListAt": "02/01/2025",
-  "barcode": "123",
-  "nutriscore": "A",
-  "novagroup": 2,
-  "ecoscore": 3,
-  "expirationDates": []
-}
-```
-
-| Parameter          | Required | Type     | Description                       |
-|:-------------------|----------|----------|:----------------------------------|
-| `name`             | **true** | string   | Product name                      |
-| `barcode`          | **true** | string   | Product barcode scanned           |
-| `nutriscore`       | false    | string   | Product nutriscore                |
-| `novagroup`        | false    | integer  | Product NOVA group                |
-| `ecoscore`         | false    | string   | Product ecoscore                  |
-| `description`      | false    | string   | Product description               |
-| `image`            | false    | string   | Url to product online image       |
-| `finished_at`      | false    | datetime | Product consumption date          |
-| `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `expirationDates`  | false    | array    | Product related expiration dates  |
-
-#### Update Custom Product
-
-```
-  PATCH /custom-products
-```
-
-```json
-{
-  "name": "New product name",
-  "description": "New product description",
-  "image": "https://new-product-image-url",
-  "finished_at": "2024-10-15 15:16:17",
-  "added_to_list_at": "2024-10-14 15:16:17",
-  "expirationDates": [
-    {
-      "date": "01/01/2025"
-    }
-  ]
-}
-```
-
-| Parameter          | Required | Type     | Description                       |
-|:-------------------|----------|----------|:----------------------------------|
-| `name`             | **true** | string   | Product name                      |
-| `description`      | false    | string   | Product description               |
-| `image`            | false    | string   | Url to product online image       |
-| `finished_at`      | false    | datetime | Product consumption date          |
-| `added_to_list_at` | false    | datetime | Product addition date to the list |
-| `expirationDates`  | false    | array    | Product related expiration dates  |
-
-#### Delete Product
-
-```
-  DELETE /products/${id}
-```
-
-| Parameter | Type     | Required | Description          |
-|:----------|:---------|----------|:---------------------|
-| `id`      | `string` | true     | Id of item to delete |
+Utilisation de Messenger pour l'envoi d'emails asynchrones et la gestion des tâches en arrière-plan
