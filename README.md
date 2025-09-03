@@ -15,8 +15,8 @@ Permet d'enregistrer les produits scannés, créer des recettes personnalisées,
 
 | Catégorie | Technologies |
 |-----------|--------------|
-| **Core Framework** | PHP 8.2+ (types stricts + attributs)<br>Symfony 7.1.* (framework bundle + components)<br>Doctrine ORM 3.2 (entités + migrations) |
-| **Persistance & BDD** | MySQL 8.0.33<br>Doctrine ORM 3.* (discriminator)<br>Doctrine Migrations Bundle 3.3 (schéma versioning)<br>Doctrine Fixtures + Faker (jeux données) |
+| **Core Framework** | PHP 8.2+ (types stricts + attributs)<br>Symfony 7.1.* (framework bundle + components)<br>Doctrine ORM 3.2 (entités + migrations + discriminator) |
+| **Persistance & BDD** | MySQL 8.0.33<br>Doctrine Migrations Bundle 3.3 (schéma versioning)<br>Doctrine Fixtures + Faker (jeux données) |
 | **Sécurité & Auth** | Symfony Security Bundle 7.1 (JWT + Voters)<br>AccessTokenHandler custom (auth stateless) |
 | **Testing & Qualité** | PHPUnit 9.5 (tests unitaires + fonctionnels)<br>PHPStan 1.12 niveau max (analyse statique)<br>PHP CS Fixer 3.66 (PSR-12 + standards) |
 | **DevOps & Déploiement** | GitHub Actions (CI/CD pipeline)<br>Heroku (déploiement continu)<br>Symfony Runtime (optimisation prod) |
@@ -158,3 +158,7 @@ Liste produits
   }
 ]
 ```
+
+### 📬 Contact
+
+Thomas Berranger - <a href="https://www.linkedin.com/in/thomas-berranger/">Linkedin</a> - tberranger@hotmail.fr
